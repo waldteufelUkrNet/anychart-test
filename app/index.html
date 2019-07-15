@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Торгуй по-своему: валютные пары, акции, индексы, товары и криптовалюта.">
+    <title>Главная страница</title>
+    <link rel="icon" href="assets/img/logo.png">
+    <!-- css-libs-->
+    <!-- own stylesheet-->
+    <link rel="stylesheet" type="text/css" href="assets/css/index.css">
+    <!-- jQuery-->
+    <script src="assets/libs-js/jquery.js"></script>
+  </head>
+  <body>
+    <div class="graphic-container">
+      <div class="graphic" id="graphic"></div>
+      <div class="graphic__btns-wrapper">
+        <ul class="graphic__type-btns-list">
+          <li class="graphic__type-btn graphic__type-btn_active" data-type="areaspline"><img src="assets/img/chart-line.png" alt="chart-line.png"></li>
+          <li class="graphic__type-btn" data-type="candlestick"><img src="assets/img/chart-candle.png" alt="chart-candle.png"></li>
+          <li class="graphic__type-btn" data-type="ohlc"><img src="assets/img/chart-bars.png" alt="chart-bars.png"></li>
+        </ul>
+        <ul class="graphic__time-btns-list">
+          <li class="graphic__time-btn graphic__time-btn_active" data-time="5">5 min.</li>
+          <li class="graphic__time-btn" data-time="10">10 min.</li>
+          <li class="graphic__time-btn" data-time="15">15 min.</li>
+          <li class="graphic__time-btn" data-time="30">30 min.</li>
+          <li class="graphic__time-btn" data-time="45">45 min.</li>
+          <li class="graphic__time-btn" data-time="60">60 min.</li>
+        </ul>
+      </div>
+    </div>
+    <!-- scripts-->
+    <script src="assets/libs-js/anychart-base.min.js"></script>
+    <script src="assets/js/anychart.js"></script>
+  </body>
+</html>

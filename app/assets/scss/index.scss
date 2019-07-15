@@ -1,0 +1,86 @@
+@import "fonts";
+@import "reset";
+@import "style_general";
+// @import "index/index_768+";
+
+body {
+  position: relative;
+}
+
+.graphic-container {border: 2px solid maroon;
+  position             : relative;
+  width                : 100%;
+  max-width            : 800px;
+  min-height           : 500px;
+  margin               : 200px auto 0;
+}
+
+.graphic {border: 2px solid dodgerblue;
+  height               : 500px;
+  width                : 100%;
+  &__btns-wrapper {
+    position           : absolute;
+    top                : 5px;
+    left               : 5px;
+    display            : flex;
+    justify-content    : flex-start;
+    align-items        : center;
+  }
+  &__type-btns-list {
+    margin-right       : 5px;
+    height             : 30px;
+    display            : flex;
+    justify-content    : flex-start;
+    align-items        : center;
+  }
+  &__type-btn {
+    background-color   : #cacaca;
+    font               : 12px mpr;
+    height             : 30px;
+    width              : 30px;
+    padding            : 5px;
+    color              : #555555;
+    cursor             : pointer;
+    transition         : color .3s, background-color .3s;
+    margin-right       : 1px;
+    img {
+      width            : 20px;
+      height           : 20px;
+    }
+    &:hover {
+      color            : white;
+      background-color : #888;
+    }
+    &_active {
+      color            : white;
+      background-color : #555555;
+    }
+  }
+  &__time-btns-list {
+    height             : 40px;
+    display            : flex;
+    justify-content    : flex-start;
+    align-items        : center;
+  }
+  &__time-btn {
+    background-color   : #cacaca;
+    font               : 16px gost;
+    width              : 50px;
+    height             : 30px;
+    white-space        : nowrap;
+    text-align         : center;
+    padding            : 5px 0 0 0;
+    color              : #555555;
+    cursor             : pointer;
+    transition         : color .3s, background-color .3s;
+    margin-right       : 1px;
+    &:hover {
+      color            : white;
+      background-color : #888;
+    }
+    &_active {
+      color            : white;
+      background-color : #555555;
+    }
+  }
+}

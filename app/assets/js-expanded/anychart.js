@@ -1,21 +1,195 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ↓↓↓ VARIABLES DECLARATION ↓↓↓
+
+let dataType           = 'areaspline', // тип графіку 'areaspline'/'candlestick'/'ohlc'
+    timeStep           = 5,            // інтервал між точками на графіку
+    stringType         = '?',          // тип даних: '?' для areaspline та 'Ohlc?' для candlestick/ohlc
+    stringSymbol       = 'EURUSD',     // назва торгової пари, потрібна для формування рядка запиту
+    dataArr,                           // адреса для отримання масиву даних
+    resultArr          = [];           // масив з перероблених вхідних даних, придатний для обробки бібліотекою
+
+// ↑↑↑ VARIABLES DECLARATION ↑↑↑
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ↓↓↓ TYPE/TIME-SWITCH-BUTTONS BEHAVIOR ↓↓↓
+
+let arrOfTypeBtns  = $('.graphic__type-btn');
+let arrOfTimerBtns = $('.graphic__time-btn');
+
+$(arrOfTypeBtns).click(function(){
+  // type-buttons highlighting
+  for (let i = 0; i < arrOfTypeBtns.length; i++) {
+    $(arrOfTypeBtns[i]).removeClass('graphic__type-btn_active');
+    $(this).addClass('graphic__type-btn_active');
+    // визначення типу графіку
+    dataType = $(this).attr('data-type');
+  }
+
+  // time-buttons highlighting + визначення stringType: ? / Ohlc?
+  if (dataType == 'candlestick' || dataType == 'ohlc') {
+    for (let i = 0; i < arrOfTimerBtns.length; i++) {
+      // якщо на candlestick/ohlc нема відповідного часового інтервалу, переключати на 30хв
+      if ($(arrOfTimerBtns[i]).attr('data-time') != '30' && $(arrOfTimerBtns[i]).attr('data-time') != '60') {
+        if ($(arrOfTimerBtns[i]).hasClass('graphic__time-btn_active')) {
+          $(arrOfTimerBtns[3]).addClass('graphic__time-btn_active');
+          timeStep = 30;
+        }
+        $(arrOfTimerBtns[i]).css({'display':'none'}).removeClass('graphic__time-btn_active');
+      }
+    }
+    stringType = 'Ohlc?';
+  } else {
+    for (var i = 0; i < arrOfTimerBtns.length; i++) {
+      $(arrOfTimerBtns[i]).css({'display':'inline-block'});
+    }
+    stringType = '?';
+  }
+console.log(`
+dataType : ${dataType}
+timeStep : ${timeStep}
+запит на сервер, перемальовуваття графіку
+`);
+  // getDataArr();
+});
+
+$(arrOfTimerBtns).click(function(){
+  // підсвітка кнопок часу та вибір інтервалу, потрібного для формування рядка запиту
+  for (var i = 0; i < arrOfTimerBtns.length; i++) {
+    $(arrOfTimerBtns[i]).removeClass('graphic__time-btn_active');
+    $(this).addClass('graphic__time-btn_active');
+  }
+  timeStep = +$(this).attr('data-time');
+console.log(`
+dataType : ${dataType}
+timeStep : ${timeStep}
+запит на сервер, перемальовуваття графіку
+`);
+  // getDataArr()
+});
+
+// ↑↑↑ TYPE/TIME-SWITCH-BUTTONS BEHAVIOR ↑↑↑
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ↓↓↓ GRAPHIC DRAWING ↓↓↓
+
 anychart.onDocumentLoad(function () {
-  // create an instance of a pie chart
-  var chart = anychart.pie();
-  // set the data
-  chart.data([
-    ["Chocolate", 5],
-    ["Rhubarb compote", 2],
-    ["Crêpe Suzette", 2],
-    ["American blueberry", 2],
-    ["Buttermilk", 1]
-  ]);
+
+  // масив даних для побудови графіка
+  var data = [
+    {x: Date.UTC(2000, 1, 1), value: 10000},
+    {x: Date.UTC(2000, 2, 1), value: 12000},
+    {x: Date.UTC(2000, 3, 1), value: 18000},
+    {x: Date.UTC(2000, 4, 1), value: 11000},
+    {x: Date.UTC(2000, 5, 1), value: 9000}
+  ];
+
+  // створити об'єкт anychart
+  var chart = anychart.line();
+
+  // create custom Date Time scale
+  var dateTimeScale = anychart.scales.dateTime();
+
+  // apply Date Time scale
+  chart.xScale(dateTimeScale);
+
+  // створити лінію на графіку
+  var series = chart.spline(data);
+
   // set chart title
   chart.title("Top 5 pancake fillings");
+
   // set the container element
   chart.container("graphic");
+
   // initiate chart display
   chart.draw();
+
+  // стерти водяний знак
+  document.getElementsByClassName('anychart-credits')[0].remove();
 });
+
+// ↑↑↑ GRAPHIC DRAWING ↑↑↑
+
+getDataArr();
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ↓↓↓ FUNCTIONS DECLARATION ↓↓↓
+
+function getDataArr() {
+// формує рядок запиту, визначає тип графіку і формує масив, придатний для обробки бібліотекою.
+// Викликає функцію перемальовування графіку.
+
+  dataArr = 'https://central.investingcase.com/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol;
+    $.ajax({
+    url     : dataArr,
+    success : function (data) {
+
+      resultArr  = [];
+
+      if (dataType == 'areaspline') {
+        console.log("areaspline");
+
+        // [{...},{...},{...}] -> [[...],[...],[...]]
+        for (var i = 0; i < data.length; i++) {
+          var tempArr = [];
+          var tempTime = new Date(data[i].Date);
+          tempArr.push(tempTime);
+          tempArr.push(data[i].Value);
+          resultArr.push(tempArr);
+        }
+
+        // lastPoint = resultArr[resultArr.length-1];
+
+        // в перший раз тимчасова точка (145 рандомна) = 144
+        resultArr.push(resultArr[resultArr.length-1]);
+
+      } else if ( dataType == 'candlestick' || dataType == 'ohlc' ) {
+
+        // [{'DateOpen':'date1', 'DateClose':'date2', 'Open':'number1', 'Hight':'number2', 'Low':'number3', 'Close':'number4'}, {...},{...}]
+        // -> -> -> -> ->
+        // [[date2, number1, number2, number3, number4],[...],[...]]
+
+        for (var i = 0; i < data.length; i++) {
+          var tempArr = [];
+          var tempTime = new Date(data[i].DateClose);
+          tempArr.push(tempTime);
+          tempArr.push(data[i].Open);
+          tempArr.push(data[i].Hight);
+          tempArr.push(data[i].Low);
+          tempArr.push(data[i].Close);
+          resultArr.push(tempArr);
+        }
+
+        lastPoint = resultArr[resultArr.length-1];
+        tempPoint = [];
+
+        // в перший раз тимчасова точка (145 рандомна) бере значення у Close 144-ї
+        tempPoint.push([lastPoint[0], lastPoint[4], lastPoint[4], lastPoint[4], lastPoint[4]]);
+        resultArr.push(tempPoint);
+      }
+
+    }
+  });
+}
+
+// ↑↑↑ FUNCTIONS DECLARATION ↑↑↑
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 // var pointStart,                        // перша точка графіку
@@ -58,51 +232,7 @@ anychart.onDocumentLoad(function () {
 
 // getDataArr();
 
-// // ↓↓↓ type/time-switch-buttons behavior ↓↓↓
-// let arrOfTypeBtns  = $('.graphic-type-btn');
-// let arrOfTimerBtns = $('.graphic-time-btn');
 
-// $(arrOfTypeBtns).click(function(){
-//   // type-buttons highlighting
-//   for (let i = 0; i < arrOfTypeBtns.length; i++) {
-//     $(arrOfTypeBtns[i]).removeClass('graphic-type-btn_active');
-//     $(this).addClass('graphic-type-btn_active');
-//     // визначення типу графіку
-//     dataType = $(this).attr('data-type');
-//   }
-
-//   // time-buttons highlighting + визначення stringType: ? / Ohlc?
-//   if (dataType == 'candlestick' || dataType == 'ohlc') {
-//     for (let i = 0; i < arrOfTimerBtns.length; i++) {
-//       // якщо на candlestick/ohlc нема відповідного часового інтервалу, переключати на 30хв
-//       if ($(arrOfTimerBtns[i]).attr('data-time') != '30' && $(arrOfTimerBtns[i]).attr('data-time') != '60') {
-//         if ($(arrOfTimerBtns[i]).hasClass('graphic-time-btn_active')) {
-//           $(arrOfTimerBtns[3]).addClass('graphic-time-btn_active');
-//           timeStep = 30;
-//         }
-//         $(arrOfTimerBtns[i]).css({'display':'none'}).removeClass('graphic-time-btn_active');
-//       }
-//     }
-//     stringType = 'Ohlc?';
-//   } else {
-//     for (var i = 0; i < arrOfTimerBtns.length; i++) {
-//       $(arrOfTimerBtns[i]).css({'display':'inline-block'});
-//     }
-//     stringType = '?';
-//   }
-//   getDataArr();
-// });
-
-// $(arrOfTimerBtns).click(function(){
-//   // підсвітка кнопок часу та вибір інтервалу, потрібного для формування рядка запиту
-//   for (var i = 0; i < arrOfTimerBtns.length; i++) {
-//     $(arrOfTimerBtns[i]).removeClass('graphic-time-btn_active');
-//     $(this).addClass('graphic-time-btn_active');
-//   }
-//   timeStep = +$(this).attr('data-time');
-//   getDataArr()
-// });
-// // ↑↑↑ type/time-switch-buttons behavior ↑↑↑
 
 
 // // ↓↓↓ functions declarations ↓↓↓

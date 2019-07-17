@@ -23,9 +23,12 @@ html(lang='ru')
       //- #labelBorder
       .graphic__btns-wrapper
         ul.graphic__type-btns-list
-          li.graphic__type-btn.graphic__type-btn_active(data-type='areaspline'): img(src="assets/img/chart-line.png", alt="chart-line.png")
-          li.graphic__type-btn(data-type='candlestick'): img(src="assets/img/chart-candle.png", alt="chart-candle.png")
-          li.graphic__type-btn(data-type='ohlc'): img(src="assets/img/chart-bars.png", alt="chart-bars.png")
+          li.graphic__type-btn.graphic__type-btn_active(data-type='areaspline')
+            img(src="assets/img/chart-line.png", alt="chart-line.png")
+          li.graphic__type-btn(data-type='candlestick')
+            img(src="assets/img/chart-candle.png", alt="chart-candle.png")
+          li.graphic__type-btn(data-type='ohlc')
+            img(src="assets/img/chart-bars.png", alt="chart-bars.png")
         ul.graphic__time-btns-list
           li.graphic__time-btn.graphic__time-btn_active(data-time='5') 5 min.
           li.graphic__time-btn(data-time='10') 10 min.

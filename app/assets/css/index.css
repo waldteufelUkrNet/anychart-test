@@ -70,15 +70,15 @@ body {
   border: 2px solid maroon;
   position: relative;
   width: 100%;
-  max-width: 800px;
-  min-height: 500px;
-  margin: 200px auto 0;
+  width: 800px;
+  height: 500px;
+  margin: 50px auto 0;
   padding-top: 40px;
 }
 
 .graphic {
   border: 2px solid dodgerblue;
-  height: 500px;
+  height: calc( 500px - 40px - 4px);
   width: 100%;
 }
 

@@ -69,53 +69,6 @@ $(arrOfTimerBtns).click(function(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// ↓↓↓ GRAPHIC DRAWING ↓↓↓
-
-// anychart.onDocumentLoad(function () {
-
-//   // масив даних для побудови графіка
-//   var data = [
-//     [Date.UTC(2007, 7, 23), 23.55, 23.88, 23.38, 23.62],
-//     [Date.UTC(2007, 7, 24), 22.65, 23.7, 22.65, 23.36],
-//     [Date.UTC(2007, 7, 25), 22.75, 23.7, 22.69, 23.44],
-//     [Date.UTC(2007, 7, 26), 23.2, 23.39, 22.87, 22.92],
-//     [Date.UTC(2007, 7, 27), 23.98, 24.49, 23.47, 23.49],
-//     [Date.UTC(2007, 7, 30), 23.55, 23.88, 23.38, 23.62],
-//     [Date.UTC(2007, 7, 31), 23.88, 23.93, 23.24, 23.25],
-//     [Date.UTC(2007, 8, 1), 23.17, 23.4, 22.85, 23.25],
-//     [Date.UTC(2007, 8, 2), 22.65, 23.7, 22.65, 23.36],
-//     [Date.UTC(2007, 8, 3), 23.2, 23.39, 22.87, 22.92],
-//     [Date.UTC(2007, 8, 6), 23.03, 23.15, 22.44, 22.97],
-//     [Date.UTC(2007, 8, 7), 22.75, 23.7, 22.69, 23.44]
-//   ];
-
-//   // створити об'єкт anychart
-//   var chart = anychart.candlestick();
-
-//   // create custom Date Time scale
-//   var dateTimeScale = anychart.scales.dateTime();
-
-//   // apply Date Time scale
-//   chart.xScale(dateTimeScale);
-
-//   // створити лінію на графіку
-//   var series = chart.candlestick(data);
-
-//   // set chart title
-//   chart.title("Top 5 pancake fillings");
-
-//   // set the container element
-//   chart.container("graphic");
-
-//   // initiate chart display
-//   chart.draw();
-
-//   // стерти водяний знак
-//   document.getElementsByClassName('anychart-credits')[0].remove();
-// });
-
-// ↑↑↑ GRAPHIC DRAWING ↑↑↑
-
 getDataArr();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,11 +102,11 @@ function getDataArr() {
           let tempHours      = +tempTimeString.slice(11,13);
           let tempMinutes    = +tempTimeString.slice(14,16);
 
-          let tempObj = {};
-          tempObj.x = Date.UTC(tempYear, tempMonth, tempDay, tempHours, tempMinutes);
-          tempObj.value = data[i].Value;
+          let tempArr = [];
+          tempArr.push( Date.UTC(tempYear, tempMonth, tempDay, tempHours, tempMinutes) );
+          tempArr.push(  data[i].Value );
 
-          resultArr.push(tempObj);
+          resultArr.push( tempArr );
         }
 
         // lastPoint = resultArr[resultArr.length-1];
@@ -197,91 +150,71 @@ function getDataArr() {
 
 function drawChart(data) {
 
+  let table, mapping, chart;
+
   // витираємо попередній графік, якщо він є
   $('#graphic').empty();
 
-  // let chart, series;
-  // if ( dataType == 'ohlc' ) {
-  //   // створити об'єкт anychart
-  //   chart = anychart.ohlc();
-  //   // створити лінію на графіку
-  //   series = chart.ohlc(data);
-  // }
-  // else if ( dataType == 'candlestick' ) {
-  //   // створити об'єкт anychart
-  //   chart = anychart.candlestick();
-  //   // створити лінію на графіку
-  //   series = chart.candlestick(data);
-  // }
-  // else if ( dataType == 'areaspline' ) {
-  //   // створити об'єкт anychart
-  //   chart = anychart.line();
-  //   // створити лінію на графіку
-  //   series = chart.spline(data);
-  // }
+  // для роботи AnyStock Charts потрібні дані у форматі table-formatted data
+  table = anychart.data.table();
+  table.addData(data);
 
-  // // вісь абсцис - час
-  // var dateTimeScale = anychart.scales.dateTime();
-  // chart.xScale(dateTimeScale);
-
-  // // Заголовок графіка
-  // chart.title(stringSymbol);
+  if (dataType == 'areaspline') {
+    // відображення даних
+    mapping = table.mapAs();
+    mapping.addField('value', 1, 'last');
+    // створити графік типу stock
+    chart = anychart.stock();
+    // створити лінію на графіку певного типу (spline/candlestick/ohlc)
+    chart.plot(0).spline(mapping);
+  }
+  else if (dataType == 'candlestick' ) {
+    // відображення даних
+    mapping = table.mapAs();
+    mapping.addField('open', 1, 'first');
+    mapping.addField('high', 2, 'max');
+    mapping.addField('low', 3, 'min');
+    mapping.addField('close', 4, 'last');
+    // mapping.addField('value', 4, 'last');
+    // створити графік типу stock
+    chart = anychart.stock();
+    // створити лінію на графіку певного типу (spline/candlestick/ohlc)
+    chart.plot(0).candlestick(mapping);
+  }
+  else if (dataType == 'ohlc') {
+    // відображення даних
+    mapping = table.mapAs();
+    mapping.addField('open', 1, 'first');
+    mapping.addField('high', 2, 'max');
+    mapping.addField('low', 3, 'min');
+    mapping.addField('close', 4, 'last');
+    // mapping.addField('value', 4, 'last');
+    // створити графік типу stock
+    chart = anychart.stock();
+    // створити лінію на графіку певного типу (spline/candlestick/ohlc)
+    chart.plot(0).ohlc(mapping);
+  }
 
   // var indicator = chart.plot(0).priceIndicator(0, {value: 'first-visible'});
-
-  // // вписати графік в контейнер
-  // chart.container("graphic");
-
-  // // ініціалізувати графік
-  // chart.draw();
-
-  // // стерти водяний знак
-  // document.getElementsByClassName('anychart-credits')[0].remove();
-
-  var table = anychart.data.table();
-  table.addData([
-    ['2015-12-24', 511.53, 514.98, 505.79, 506.40],
-    ['2015-12-25', 512.53, 514.88, 505.69, 505.34],
-    ['2015-12-26', 511.83, 514.98, 505.59, 506.23],
-    ['2015-12-27', 511.22, 515.30, 505.49, 506.47],
-    ['2015-12-28', 510.35, 515.72, 505.23, 505.80],
-    ['2015-12-29', 510.53, 515.86, 505.38, 508.25],
-    ['2015-12-30', 511.43, 515.98, 505.66, 507.45],
-    ['2015-12-31', 511.50, 515.33, 505.99, 507.98],
-    ['2016-01-01', 511.32, 514.29, 505.99, 506.37],
-    ['2016-01-02', 511.70, 514.87, 506.18, 506.75],
-    ['2016-01-03', 512.30, 514.78, 505.87, 508.67],
-    ['2016-01-04', 512.50, 514.77, 505.83, 508.35],
-    ['2016-01-05', 511.53, 516.18, 505.91, 509.42],
-    ['2016-01-06', 511.13, 516.01, 506.00, 509.26],
-    ['2016-01-07', 510.93, 516.07, 506.00, 510.99],
-    ['2016-01-08', 510.88, 515.93, 505.22, 509.95],
-    ['2016-01-09', 509.12, 515.97, 505.15, 510.12],
-    ['2016-01-10', 508.53, 516.13, 505.66, 510.42],
-    ['2016-01-11', 508.90, 516.24, 505.73, 510.40]
-  ]);
-
-  // mapping the data
-  var mapping = table.mapAs();
-  mapping.addField('open', 1, 'first');
-  mapping.addField('high', 2, 'max');
-  mapping.addField('low', 3, 'min');
-  mapping.addField('close', 4, 'last');
-  mapping.addField('value', 4, 'last');
-
-  // defining the chart type
-  var chart = anychart.stock();
-
-  chart.plot(0).ohlc(mapping);
 
   // var grouping = chart.grouping();
   // grouping.minPixPerPoint(40);
 
-  chart.container('graphic');
+  // Заголовок графіка
+  chart.title(stringSymbol);
+
+  // вписати графік в контейнер
+  chart.container("graphic");
+
+  // ініціалізувати графік
   chart.draw();
 
+  // стерти водяний знак
+  document.getElementsByClassName('anychart-credits')[0].remove();
+
+  // // витерти останню точку графіка
   // setTimeout(function(){
-  //   table.remove();
+  //   table.remove( data[data.length-1][0], data[data.length-1][0] );
   // }, 3000);
 
 }

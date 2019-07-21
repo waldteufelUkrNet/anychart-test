@@ -1,0 +1,14 @@
+плюшки anychart:
+
+1. два і більше графіка на одній осі - вписати в plot різні цифри:
+  chart.plot(0).candlestick(mapping);
+  chart.plot(1).spline(mapping);
+
+2. накладені один на одного графіки - вписати в plot одну і ту ж цифру:
+  chart.plot(0).candlestick(mapping);
+  chart.plot(0).spline(mapping);
+
+
+
+============
+

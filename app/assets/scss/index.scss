@@ -27,14 +27,16 @@ body {
     justify-content    : flex-start;
     align-items        : center;
   }
-  &__type-btns-list {
-    margin-right       : 5px;
+  &__type-btns-list,
+  &__crosshair-btns-list {
+    margin-right       : 6px;
     height             : 30px;
     display            : flex;
     justify-content    : flex-start;
     align-items        : center;
   }
-  &__type-btn {
+  &__type-btn,
+  &__crosshair-btn {
     background-color   : #cacaca;
     font               : 12px mpr;
     height             : 30px;
@@ -58,6 +60,7 @@ body {
     }
   }
   &__time-btns-list {
+    margin-right       : 6px;
     height             : 40px;
     display            : flex;
     justify-content    : flex-start;

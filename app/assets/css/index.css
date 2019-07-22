@@ -78,6 +78,7 @@ body {
 
 .graphic {
   border: 2px solid dodgerblue;
+  height: -webkit-calc( 500px - 40px - 4px);
   height: calc( 500px - 40px - 4px);
   width: 100%;
 }
@@ -100,8 +101,8 @@ body {
           align-items: center;
 }
 
-.graphic__type-btns-list {
-  margin-right: 5px;
+.graphic__type-btns-list, .graphic__crosshair-btns-list {
+  margin-right: 6px;
   height: 30px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -117,7 +118,7 @@ body {
           align-items: center;
 }
 
-.graphic__type-btn {
+.graphic__type-btn, .graphic__crosshair-btn {
   background-color: #cacaca;
   font: 12px mpr;
   height: 30px;
@@ -131,22 +132,23 @@ body {
   margin-right: 1px;
 }
 
-.graphic__type-btn img {
+.graphic__type-btn img, .graphic__crosshair-btn img {
   width: 20px;
   height: 20px;
 }
 
-.graphic__type-btn:hover {
+.graphic__type-btn:hover, .graphic__crosshair-btn:hover {
   color: white;
   background-color: #888;
 }
 
-.graphic__type-btn_active {
+.graphic__type-btn_active, .graphic__crosshair-btn_active {
   color: white;
   background-color: #555555;
 }
 
 .graphic__time-btns-list {
+  margin-right: 6px;
   height: 40px;
   display: -webkit-box;
   display: -webkit-flex;

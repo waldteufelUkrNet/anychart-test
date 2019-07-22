@@ -23,19 +23,26 @@ html(lang='ru')
       //- #labelBorder
       .graphic__btns-wrapper
         ul.graphic__type-btns-list
-          li.graphic__type-btn.graphic__type-btn_active(data-type='areaspline')
+          li.graphic__type-btn.graphic__type-btn_active(data-type='areaspline' title="тип графика: линия")
             img(src="assets/img/chart-line.png", alt="chart-line.png")
-          li.graphic__type-btn(data-type='candlestick')
+          li.graphic__type-btn(data-type='candlestick' title="тип графика: японские свечи")
             img(src="assets/img/chart-candle.png", alt="chart-candle.png")
-          li.graphic__type-btn(data-type='ohlc')
+          li.graphic__type-btn(data-type='ohlc' title="тип графика: бары (OHLC)")
             img(src="assets/img/chart-bars.png", alt="chart-bars.png")
         ul.graphic__time-btns-list
-          li.graphic__time-btn.graphic__time-btn_active(data-time='5') 5 min.
-          li.graphic__time-btn(data-time='10') 10 min.
-          li.graphic__time-btn(data-time='15') 15 min.
-          li.graphic__time-btn(data-time='30') 30 min.
-          li.graphic__time-btn(data-time='45') 45 min.
-          li.graphic__time-btn(data-time='60') 60 min.
+          li.graphic__time-btn.graphic__time-btn_active(data-time='5' title='цена деления: 5 минут') 5 мин.
+          li.graphic__time-btn(data-time='10' title='цена деления: 10 минут') 10 мин.
+          li.graphic__time-btn(data-time='15' title='цена деления: 15 минут') 15 мин.
+          li.graphic__time-btn(data-time='30' title='цена деления: 30 минут') 30 мин.
+          li.graphic__time-btn(data-time='45' title='цена деления: 45 минут') 45 мин.
+          li.graphic__time-btn(data-time='60' title='цена деления: 60 минут') 60 мин.
+        ul.graphic__crosshair-btns-list
+          li.graphic__crosshair-btn.graphic__crosshair-btn_active(data-crosshair="sticky" title="перекрестье на графике: привязанное")
+            img(src="assets/img/crosshair-sticky.png", alt="crosshair-sticky")
+          li.graphic__crosshair-btn(data-crosshair="float" title="перекрестье на графике: свободное")
+            img(src="assets/img/crosshair-float.png", alt="crosshair-float")
+          li.graphic__crosshair-btn(data-crosshair="disable" title="перекрестье на графике: отсутствует")
+            img(src="assets/img/crosshair-disable.png", alt="crosshair-disable")
 
     // scripts
     script(src='assets/libs-js/anychart-core.min.js')

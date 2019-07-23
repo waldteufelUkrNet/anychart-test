@@ -13,6 +13,7 @@ let dataType           = 'areaspline', // тип графіку 'areaspline'/'ca
 
 let table, lineMapping, OHLCMapping, chart, line;
 let dataСrosshair = 'sticky';
+let dataScroller  = 'off';
 
 // ↑↑↑ VARIABLES DECLARATION ↑↑↑
 
@@ -31,7 +32,7 @@ getDataArr();
 let arrOfTypeBtns  = $('.graphic__type-btn');
 let arrOfTimerBtns = $('.graphic__time-btn');
 
-$(arrOfTypeBtns).click(function(){console.log("dataСrosshair", dataСrosshair);
+$(arrOfTypeBtns).click(function(){
   // type-buttons highlighting
   for (let i = 0; i < arrOfTypeBtns.length; i++) {
     $(arrOfTypeBtns[i]).removeClass('graphic__type-btn_active');
@@ -62,7 +63,7 @@ $(arrOfTypeBtns).click(function(){console.log("dataСrosshair", dataСrosshair);
   getDataArr();
 });
 
-$(arrOfTimerBtns).click(function(){console.log("dataСrosshair", dataСrosshair);
+$(arrOfTimerBtns).click(function(){
   // підсвітка кнопок часу та вибір інтервалу, потрібного для формування рядка запиту
   for (var i = 0; i < arrOfTimerBtns.length; i++) {
     $(arrOfTimerBtns[i]).removeClass('graphic__time-btn_active');
@@ -90,15 +91,7 @@ $(arrOfCrosshairsBtns).click(function(){
   // визначення типу курсору
   dataСrosshair = $(this).attr('data-crosshair');
 
-  if ( dataСrosshair == 'float' ) {
-    chart.crosshair(true);
-    chart.crosshair().displayMode("float");
-  } else if ( dataСrosshair == 'disable' ) {
-    chart.crosshair(false);
-  } else {
-    chart.crosshair(true);
-    chart.crosshair().displayMode("sticky");
-  }
+  setCrosshairType()
 });
 
 // ↑↑↑ CROSSHAIR-SWITCH-BUTTONS BEHAVIOR ↑↑↑
@@ -107,11 +100,35 @@ $(arrOfCrosshairsBtns).click(function(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// ↓↓↓ SCROLLER-SWITCH-BUTTONS BEHAVIOR ↓↓↓
+
+let arrOfScrollerBtns = $('.graphic__scroller-btn');
+$(arrOfScrollerBtns).click(function(){
+  // підсвітка кнопок типу курсору
+  for (var i = 0; i < arrOfScrollerBtns.length; i++) {
+    $(arrOfScrollerBtns[i]).removeClass('graphic__scroller-btn_active');
+    $(this).addClass('graphic__scroller-btn_active');
+  }
+
+  // визначення стану скролу
+  dataScroller = $(this).attr('data-scroll');
+
+  toggleScroller ()
+});
+
+// ↑↑↑ SCROLLER-SWITCH-BUTTONS BEHAVIOR ↑↑↑
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ↓↓↓ FUNCTIONS DECLARATION ↓↓↓
 
 function getDataArr() {
-// формує рядок запиту, визначає тип графіку і формує масив, придатний для обробки бібліотекою.
-// Викликає функцію перемальовування графіку.
+// формує рядок запиту, визначає тип графіку і формує масив, придатний для обробки бібліотекою
+// викликає функцію перемальовування графіку
+// викликає функцію позначення типу курсору
+// викликає функцію включення/виключення скролу часу графіка
 
   dataArr = 'http://185.229.227.61:10002/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol;
     $.ajax({
@@ -176,8 +193,11 @@ function getDataArr() {
       }
 
       drawChart(resultArr);
+      setCrosshairType();
+      toggleScroller();
     }
   });
+
 }
 
 function drawChart(data) {
@@ -198,7 +218,7 @@ function drawChart(data) {
   OHLCMapping.addField('high', 2, 'max');
   OHLCMapping.addField('low', 3, 'min');
   OHLCMapping.addField('close', 4, 'last');
-  // OHLCMapping.addField('value', 4, 'last');
+  OHLCMapping.addField('value', 4, 'last');
 
   // створити графік типу stock
   chart = anychart.stock();
@@ -206,17 +226,20 @@ function drawChart(data) {
   if (dataType == 'areaspline') {
     // створити лінію на графіку певного типу (spline/candlestick/ohlc)
     line = chart.plot(0).spline(lineMapping);
+    line.stroke("green", 1); // line.stroke("green", 1, "10 5", "round");
   }
   else if (dataType == 'candlestick' ) {
     // створити лінію на графіку певного типу (spline/candlestick/ohlc)
     line = chart.plot(0).candlestick(OHLCMapping);
+    line.fallingFill("red").fallingStroke("red");
+    line.risingFill("green").risingStroke("green");
   }
   else if (dataType == 'ohlc') {
     // створити лінію на графіку певного типу (spline/candlestick/ohlc)
     line = chart.plot(0).ohlc(OHLCMapping);
+    line.fallingStroke("red");
+    line.risingStroke("green");
   }
-
-  // var indicator = chart.plot(0).priceIndicator(0, {value: 'first-visible'});
 
   // var grouping = chart.grouping();
   // grouping.minPixPerPoint(40);
@@ -228,9 +251,6 @@ function drawChart(data) {
   // назва конкретної лінії на графіку
   line.name(stringSymbol);
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // додати засічки на осі абсцис
@@ -239,6 +259,9 @@ function drawChart(data) {
   xAxis.minorLabels({anchor: 'left-top'});
   xAxis.ticks(true); // або .ticks({stroke: '#F44336'});
   xAxis.minorTicks(true);
+
+  // xAxis.labels().format('{%Value}{dateTimeFormat:yyyy-MM-dd hh:mm}');
+  // xAxis.minorLabels().format('{%Value}{dateTimeFormat:hh:mm}');
 
   // xAxis.background("#BBDEFB");
   // xAxis.height(60);
@@ -257,6 +280,10 @@ function drawChart(data) {
   // yTitle.text("Units");
   // yTitle.align("bottom");
 
+  // додаткова вісь ординат справа
+  // var extraYAxis = chart.plot().yAxis(1);
+  // extraYAxis.orientation("right");
+
   // enable major grids
   chart.plot().xGrid().enabled(true);
   chart.plot().yGrid().enabled(true); // стиль лінії .stroke({dash: "13 5"});
@@ -264,20 +291,26 @@ function drawChart(data) {
   chart.plot().xMinorGrid().enabled(true);
   chart.plot().yMinorGrid().enabled(true);
 
+  // стилізація перехрестя
+  chart.plot().crosshair().xStroke("red", 1); // .xStroke("#00bfa5", 1.5, "10 5", "round");
 
-  // додаткова вісь ординат справа
-  // var extraYAxis = chart.plot().yAxis(1);
-  // extraYAxis.orientation("right");
+  // сховати перехрестя
+  // chart.plot().crosshair().yStroke(null);
 
+  // поточне значення (т.зв. плот-лінія)
+  let indicator = chart.plot().priceIndicator();
+  indicator.value('last-visible');
+  indicator.stroke("green", 1, "2 2");
+  indicator.label().background().fill("green");
+  indicator.label().fontColor("white");
+
+  // виключення скролу часу в графіку
+  chart.scroller().enabled(false);
+
+  // ???
   // chart.plot().xAxis().showHelperLabel(false);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
   // вписати графік в контейнер
   chart.container("graphic");
@@ -288,12 +321,35 @@ function drawChart(data) {
   // стерти водяний знак
   document.getElementsByClassName('anychart-credits')[0].remove();
 
-  // // витерти останню точку графіка
+  // витерти останню точку графіка
   // setTimeout(function(){
   //   table.remove( data[data.length-1][0], data[data.length-1][0] );
   // }, 3000);
 
 }
+
+function setCrosshairType() {
+// змінює властивості anychart під потрібний вигляд курсору
+  if ( dataСrosshair == 'float' ) {
+    chart.crosshair(true);
+    chart.crosshair().displayMode("float");
+  } else if ( dataСrosshair == 'disable' ) {
+    chart.crosshair(false);
+  } else {
+    chart.crosshair(true);
+    chart.crosshair().displayMode("sticky");
+  }
+}
+
+function toggleScroller() {
+// включає/виключає скрол часу в графіку
+  if ( dataScroller == 'off' ) {
+    chart.scroller().enabled(false);
+  } else if ( dataScroller == 'on' ) {
+    chart.scroller().enabled(true);
+  }
+}
+
 // ↑↑↑ FUNCTIONS DECLARATION ↑↑↑
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

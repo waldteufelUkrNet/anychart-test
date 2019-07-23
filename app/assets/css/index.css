@@ -101,7 +101,7 @@ body {
           align-items: center;
 }
 
-.graphic__type-btns-list, .graphic__crosshair-btns-list {
+.graphic__type-btns-list, .graphic__crosshair-btns-list, .graphic__scroller-btns-list {
   margin-right: 6px;
   height: 30px;
   display: -webkit-box;
@@ -118,7 +118,7 @@ body {
           align-items: center;
 }
 
-.graphic__type-btn, .graphic__crosshair-btn {
+.graphic__type-btn, .graphic__crosshair-btn, .graphic__scroller-btn {
   background-color: #cacaca;
   font: 12px mpr;
   height: 30px;
@@ -132,17 +132,17 @@ body {
   margin-right: 1px;
 }
 
-.graphic__type-btn img, .graphic__crosshair-btn img {
+.graphic__type-btn img, .graphic__crosshair-btn img, .graphic__scroller-btn img {
   width: 20px;
   height: 20px;
 }
 
-.graphic__type-btn:hover, .graphic__crosshair-btn:hover {
+.graphic__type-btn:hover, .graphic__crosshair-btn:hover, .graphic__scroller-btn:hover {
   color: white;
   background-color: #888;
 }
 
-.graphic__type-btn_active, .graphic__crosshair-btn_active {
+.graphic__type-btn_active, .graphic__crosshair-btn_active, .graphic__scroller-btn_active {
   color: white;
   background-color: #555555;
 }
@@ -171,7 +171,7 @@ body {
   height: 30px;
   white-space: nowrap;
   text-align: center;
-  padding: 5px 0 0 0;
+  padding: 7px 0 0 0;
   color: #555555;
   cursor: pointer;
   -webkit-transition: color .3s, background-color .3s;

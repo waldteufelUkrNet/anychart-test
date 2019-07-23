@@ -8,7 +8,7 @@
   chart.plot(0).candlestick(mapping);
   chart.plot(0).spline(mapping);
 
-
+3. переключення способу відображення графіка https://docs.anychart.com/Stock_Charts/Series/Series_Type
 
 ============
 

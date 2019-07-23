@@ -17,7 +17,8 @@ dataArr,
 resultArr = []; // масив з перероблених вхідних даних, придатний для обробки бібліотекою
 
 var table, lineMapping, OHLCMapping, chart, line;
-var dataСrosshair = 'sticky'; // ↑↑↑ VARIABLES DECLARATION ↑↑↑
+var dataСrosshair = 'sticky';
+var dataScroller = 'off'; // ↑↑↑ VARIABLES DECLARATION ↑↑↑
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,8 +31,7 @@ getDataArr(); //////////////////////////////////////////////////////////////////
 var arrOfTypeBtns = $('.graphic__type-btn');
 var arrOfTimerBtns = $('.graphic__time-btn');
 $(arrOfTypeBtns).click(function () {
-  console.log("dataСrosshair", dataСrosshair); // type-buttons highlighting
-
+  // type-buttons highlighting
   for (var _i = 0; _i < arrOfTypeBtns.length; _i++) {
     $(arrOfTypeBtns[_i]).removeClass('graphic__type-btn_active');
     $(this).addClass('graphic__type-btn_active'); // визначення типу графіку
@@ -69,8 +69,7 @@ $(arrOfTypeBtns).click(function () {
   getDataArr();
 });
 $(arrOfTimerBtns).click(function () {
-  console.log("dataСrosshair", dataСrosshair); // підсвітка кнопок часу та вибір інтервалу, потрібного для формування рядка запиту
-
+  // підсвітка кнопок часу та вибір інтервалу, потрібного для формування рядка запиту
   for (var i = 0; i < arrOfTimerBtns.length; i++) {
     $(arrOfTimerBtns[i]).removeClass('graphic__time-btn_active');
     $(this).addClass('graphic__time-btn_active');
@@ -94,25 +93,35 @@ $(arrOfCrosshairsBtns).click(function () {
 
 
   dataСrosshair = $(this).attr('data-crosshair');
-
-  if (dataСrosshair == 'float') {
-    chart.crosshair(true);
-    chart.crosshair().displayMode("float");
-  } else if (dataСrosshair == 'disable') {
-    chart.crosshair(false);
-  } else {
-    chart.crosshair(true);
-    chart.crosshair().displayMode("sticky");
-  }
+  setCrosshairType();
 }); // ↑↑↑ CROSSHAIR-SWITCH-BUTTONS BEHAVIOR ↑↑↑
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓↓↓ SCROLLER-SWITCH-BUTTONS BEHAVIOR ↓↓↓
+
+var arrOfScrollerBtns = $('.graphic__scroller-btn');
+$(arrOfScrollerBtns).click(function () {
+  // підсвітка кнопок типу курсору
+  for (var i = 0; i < arrOfScrollerBtns.length; i++) {
+    $(arrOfScrollerBtns[i]).removeClass('graphic__scroller-btn_active');
+    $(this).addClass('graphic__scroller-btn_active');
+  } // визначення стану скролу
+
+
+  dataScroller = $(this).attr('data-scroll');
+  toggleScroller();
+}); // ↑↑↑ SCROLLER-SWITCH-BUTTONS BEHAVIOR ↑↑↑
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓↓↓ FUNCTIONS DECLARATION ↓↓↓
 
 function getDataArr() {
-  // формує рядок запиту, визначає тип графіку і формує масив, придатний для обробки бібліотекою.
-  // Викликає функцію перемальовування графіку.
+  // формує рядок запиту, визначає тип графіку і формує масив, придатний для обробки бібліотекою
+  // викликає функцію перемальовування графіку
+  // викликає функцію позначення типу курсору
+  // викликає функцію включення/виключення скролу часу графіка
   dataArr = 'http://185.229.227.61:10002/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol;
   $.ajax({
     url: dataArr,
@@ -175,6 +184,8 @@ function getDataArr() {
       }
 
       drawChart(resultArr);
+      setCrosshairType();
+      toggleScroller();
     }
   });
 }
@@ -192,22 +203,26 @@ function drawChart(data) {
   OHLCMapping.addField('open', 1, 'first');
   OHLCMapping.addField('high', 2, 'max');
   OHLCMapping.addField('low', 3, 'min');
-  OHLCMapping.addField('close', 4, 'last'); // OHLCMapping.addField('value', 4, 'last');
-  // створити графік типу stock
+  OHLCMapping.addField('close', 4, 'last');
+  OHLCMapping.addField('value', 4, 'last'); // створити графік типу stock
 
   chart = anychart.stock();
 
   if (dataType == 'areaspline') {
     // створити лінію на графіку певного типу (spline/candlestick/ohlc)
     line = chart.plot(0).spline(lineMapping);
+    line.stroke("green", 1); // line.stroke("green", 1, "10 5", "round");
   } else if (dataType == 'candlestick') {
     // створити лінію на графіку певного типу (spline/candlestick/ohlc)
     line = chart.plot(0).candlestick(OHLCMapping);
+    line.fallingFill("red").fallingStroke("red");
+    line.risingFill("green").risingStroke("green");
   } else if (dataType == 'ohlc') {
     // створити лінію на графіку певного типу (spline/candlestick/ohlc)
     line = chart.plot(0).ohlc(OHLCMapping);
-  } // var indicator = chart.plot(0).priceIndicator(0, {value: 'first-visible'});
-  // var grouping = chart.grouping();
+    line.fallingStroke("red");
+    line.risingStroke("green");
+  } // var grouping = chart.grouping();
   // grouping.minPixPerPoint(40);
   // grouping.enabled(false);
   // Заголовок графіка
@@ -216,8 +231,6 @@ function drawChart(data) {
   chart.title(stringSymbol); // назва конкретної лінії на графіку
 
   line.name(stringSymbol); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // додати засічки на осі абсцис
 
   var xAxis = chart.plot().xAxis();
@@ -229,7 +242,9 @@ function drawChart(data) {
   });
   xAxis.ticks(true); // або .ticks({stroke: '#F44336'});
 
-  xAxis.minorTicks(true); // xAxis.background("#BBDEFB");
+  xAxis.minorTicks(true); // xAxis.labels().format('{%Value}{dateTimeFormat:yyyy-MM-dd hh:mm}');
+  // xAxis.minorLabels().format('{%Value}{dateTimeFormat:hh:mm}');
+  // xAxis.background("#BBDEFB");
   // xAxis.height(60);
   //розташування засічок inside/outside
   // xAxis.ticks().position("inside");
@@ -242,6 +257,9 @@ function drawChart(data) {
   // yTitle.enabled(true);
   // yTitle.text("Units");
   // yTitle.align("bottom");
+  // додаткова вісь ординат справа
+  // var extraYAxis = chart.plot().yAxis(1);
+  // extraYAxis.orientation("right");
   // enable major grids
 
   chart.plot().xGrid().enabled(true);
@@ -249,12 +267,21 @@ function drawChart(data) {
   // enable minor grids
 
   chart.plot().xMinorGrid().enabled(true);
-  chart.plot().yMinorGrid().enabled(true); // додаткова вісь ординат справа
-  // var extraYAxis = chart.plot().yAxis(1);
-  // extraYAxis.orientation("right");
+  chart.plot().yMinorGrid().enabled(true); // стилізація перехрестя
+
+  chart.plot().crosshair().xStroke("red", 1); // .xStroke("#00bfa5", 1.5, "10 5", "round");
+  // сховати перехрестя
+  // chart.plot().crosshair().yStroke(null);
+  // поточне значення (т.зв. плот-лінія)
+
+  var indicator = chart.plot().priceIndicator();
+  indicator.value('last-visible');
+  indicator.stroke("green", 1, "2 2");
+  indicator.label().background().fill("green");
+  indicator.label().fontColor("white"); // виключення скролу часу в графіку
+
+  chart.scroller().enabled(false); // ???
   // chart.plot().xAxis().showHelperLabel(false);
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // вписати графік в контейнер
 
@@ -262,10 +289,32 @@ function drawChart(data) {
 
   chart.draw(); // стерти водяний знак
 
-  document.getElementsByClassName('anychart-credits')[0].remove(); // // витерти останню точку графіка
+  document.getElementsByClassName('anychart-credits')[0].remove(); // витерти останню точку графіка
   // setTimeout(function(){
   //   table.remove( data[data.length-1][0], data[data.length-1][0] );
   // }, 3000);
+}
+
+function setCrosshairType() {
+  // змінює властивості anychart під потрібний вигляд курсору
+  if (dataСrosshair == 'float') {
+    chart.crosshair(true);
+    chart.crosshair().displayMode("float");
+  } else if (dataСrosshair == 'disable') {
+    chart.crosshair(false);
+  } else {
+    chart.crosshair(true);
+    chart.crosshair().displayMode("sticky");
+  }
+}
+
+function toggleScroller() {
+  // включає/виключає скрол часу в графіку
+  if (dataScroller == 'off') {
+    chart.scroller().enabled(false);
+  } else if (dataScroller == 'on') {
+    chart.scroller().enabled(true);
+  }
 } // ↑↑↑ FUNCTIONS DECLARATION ↑↑↑
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

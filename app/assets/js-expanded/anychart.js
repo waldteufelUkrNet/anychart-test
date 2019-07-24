@@ -3,15 +3,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ↓↓↓ VARIABLES DECLARATION ↓↓↓
+let domain        = 'http://185.229.227.61:10002';
 
-let dataType           = 'areaspline', // тип графіку 'areaspline'/'candlestick'/'ohlc'
-    timeStep           = 5,            // інтервал між точками на графіку
-    stringType         = '?',          // тип даних: '?' для areaspline та 'Ohlc?' для candlestick/ohlc
-    stringSymbol       = 'EURUSD',     // назва торгової пари, потрібна для формування рядка запиту
-    dataArr,                           // адреса для отримання масиву даних
-    resultArr          = [];           // масив з перероблених вхідних даних, придатний для обробки бібліотекою
+let dataType      = 'areaspline', // тип графіку 'areaspline'/'candlestick'/'ohlc'
+    timeStep      = 5,            // інтервал між точками на графіку
+    stringType    = '?',          // тип даних: '?' для areaspline та 'Ohlc?' для candlestick/ohlc
+    stringSymbol  = 'EURUSD',     // назва торгової пари, потрібна для формування рядка запиту
+    dataArr,                      // адреса для отримання масиву даних
+    resultArr     = [];           // масив з перероблених вхідних даних, придатний для обробки бібліотекою
 
 let table, lineMapping, OHLCMapping, chart, line;
+
 let dataСrosshair = 'sticky';
 let dataScroller  = 'off';
 
@@ -130,7 +132,7 @@ function getDataArr() {
 // викликає функцію позначення типу курсору
 // викликає функцію включення/виключення скролу часу графіка
 
-  dataArr = 'http://185.229.227.61:10002/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol;
+  dataArr = domain + '/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol;
     $.ajax({
     url     : dataArr,
     success : function (data) {
@@ -192,7 +194,7 @@ function getDataArr() {
         // resultArr.push(tempPoint);
       }
 
-      drawChart(resultArr);
+      drawChart();
       setCrosshairType();
       toggleScroller();
     }
@@ -200,14 +202,14 @@ function getDataArr() {
 
 }
 
-function drawChart(data) {
+function drawChart() {
 
   // витираємо попередній графік, якщо він є
   $('#graphic').empty();
 
   // для роботи AnyStock Charts потрібні дані у форматі table-formatted data
   table = anychart.data.table();
-  table.addData(data);
+  table.addData(resultArr);
 
   // способи відобрадення даних
   lineMapping = table.mapAs();
@@ -241,17 +243,11 @@ function drawChart(data) {
     line.risingStroke("green");
   }
 
-  // var grouping = chart.grouping();
-  // grouping.minPixPerPoint(40);
-  // grouping.enabled(false);
-
   // Заголовок графіка
   chart.title(stringSymbol);
 
   // назва конкретної лінії на графіку
   line.name(stringSymbol);
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // додати засічки на осі абсцис
   let xAxis = chart.plot().xAxis();
@@ -273,16 +269,6 @@ function drawChart(data) {
   // перенести вісь ординат зліва направо
   chart.plot().yAxis().orientation("right");
   chart.padding(0, 80, 10, 10);
-
-  // підпис осі ординат
-  // let yTitle = chart.plot().yAxis().title();
-  // yTitle.enabled(true);
-  // yTitle.text("Units");
-  // yTitle.align("bottom");
-
-  // додаткова вісь ординат справа
-  // var extraYAxis = chart.plot().yAxis(1);
-  // extraYAxis.orientation("right");
 
   // enable major grids
   chart.plot().xGrid().enabled(true);
@@ -307,11 +293,6 @@ function drawChart(data) {
   // виключення скролу часу в графіку
   chart.scroller().enabled(false);
 
-  // ???
-  // chart.plot().xAxis().showHelperLabel(false);
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   // вписати графік в контейнер
   chart.container("graphic");
 
@@ -320,11 +301,6 @@ function drawChart(data) {
 
   // стерти водяний знак
   document.getElementsByClassName('anychart-credits')[0].remove();
-
-  // витерти останню точку графіка
-  // setTimeout(function(){
-  //   table.remove( data[data.length-1][0], data[data.length-1][0] );
-  // }, 3000);
 
 }
 
@@ -348,6 +324,31 @@ function toggleScroller() {
   } else if ( dataScroller == 'on' ) {
     chart.scroller().enabled(true);
   }
+}
+
+setInterval(function(){
+  $.ajax({
+    url     : domain + '/api/Stock?timer=realOne&symbol=' + stringSymbol,
+    success : function (data) {
+      console.log("data", data);
+      wagTheTail(data[0].Date, data[0].Value);
+    }
+  });
+},2000);
+
+
+function wagTheTail(elemTime, elemValue) {
+  console.log("elemTime ", elemTime);
+  console.log("elemValue", elemValue);
+// тягає хвостик - крайню праву точку (тимчасову): видаляє точку, додає точку
+
+  table.remove( resultArr[resultArr.length-1][0], resultArr[resultArr.length-1][0] );
+  table.addData( [[elemTime, elemValue]] );
+
+}
+
+function redrawChart() {
+// додає у графік нову точку
 }
 
 // ↑↑↑ FUNCTIONS DECLARATION ↑↑↑

@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓↓↓ VARIABLES DECLARATION ↓↓↓
+var domain = 'http://185.229.227.61:10002';
 var dataType = 'areaspline',
     // тип графіку 'areaspline'/'candlestick'/'ohlc'
 timeStep = 5,
@@ -122,7 +123,7 @@ function getDataArr() {
   // викликає функцію перемальовування графіку
   // викликає функцію позначення типу курсору
   // викликає функцію включення/виключення скролу часу графіка
-  dataArr = 'http://185.229.227.61:10002/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol;
+  dataArr = domain + '/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol;
   $.ajax({
     url: dataArr,
     success: function success(data) {
@@ -183,19 +184,19 @@ function getDataArr() {
 
       }
 
-      drawChart(resultArr);
+      drawChart();
       setCrosshairType();
       toggleScroller();
     }
   });
 }
 
-function drawChart(data) {
+function drawChart() {
   // витираємо попередній графік, якщо він є
   $('#graphic').empty(); // для роботи AnyStock Charts потрібні дані у форматі table-formatted data
 
   table = anychart.data.table();
-  table.addData(data); // способи відобрадення даних
+  table.addData(resultArr); // способи відобрадення даних
 
   lineMapping = table.mapAs();
   lineMapping.addField('value', 1, 'last');
@@ -222,16 +223,12 @@ function drawChart(data) {
     line = chart.plot(0).ohlc(OHLCMapping);
     line.fallingStroke("red");
     line.risingStroke("green");
-  } // var grouping = chart.grouping();
-  // grouping.minPixPerPoint(40);
-  // grouping.enabled(false);
-  // Заголовок графіка
+  } // Заголовок графіка
 
 
   chart.title(stringSymbol); // назва конкретної лінії на графіку
 
-  line.name(stringSymbol); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // додати засічки на осі абсцис
+  line.name(stringSymbol); // додати засічки на осі абсцис
 
   var xAxis = chart.plot().xAxis();
   xAxis.labels({
@@ -252,15 +249,7 @@ function drawChart(data) {
   xAxis.minorTicks().position("inside"); // перенести вісь ординат зліва направо
 
   chart.plot().yAxis().orientation("right");
-  chart.padding(0, 80, 10, 10); // підпис осі ординат
-  // let yTitle = chart.plot().yAxis().title();
-  // yTitle.enabled(true);
-  // yTitle.text("Units");
-  // yTitle.align("bottom");
-  // додаткова вісь ординат справа
-  // var extraYAxis = chart.plot().yAxis(1);
-  // extraYAxis.orientation("right");
-  // enable major grids
+  chart.padding(0, 80, 10, 10); // enable major grids
 
   chart.plot().xGrid().enabled(true);
   chart.plot().yGrid().enabled(true); // стиль лінії .stroke({dash: "13 5"});
@@ -280,19 +269,13 @@ function drawChart(data) {
   indicator.label().background().fill("green");
   indicator.label().fontColor("white"); // виключення скролу часу в графіку
 
-  chart.scroller().enabled(false); // ???
-  // chart.plot().xAxis().showHelperLabel(false);
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // вписати графік в контейнер
+  chart.scroller().enabled(false); // вписати графік в контейнер
 
   chart.container("graphic"); // ініціалізувати графік
 
   chart.draw(); // стерти водяний знак
 
-  document.getElementsByClassName('anychart-credits')[0].remove(); // витерти останню точку графіка
-  // setTimeout(function(){
-  //   table.remove( data[data.length-1][0], data[data.length-1][0] );
-  // }, 3000);
+  document.getElementsByClassName('anychart-credits')[0].remove();
 }
 
 function setCrosshairType() {
@@ -315,7 +298,28 @@ function toggleScroller() {
   } else if (dataScroller == 'on') {
     chart.scroller().enabled(true);
   }
-} // ↑↑↑ FUNCTIONS DECLARATION ↑↑↑
+}
+
+setInterval(function () {
+  $.ajax({
+    url: domain + '/api/Stock?timer=realOne&symbol=' + stringSymbol,
+    success: function success(data) {
+      console.log("data", data);
+      wagTheTail(data[0].Date, data[0].Value);
+    }
+  });
+}, 2000);
+
+function wagTheTail(elemTime, elemValue) {
+  console.log("elemTime ", elemTime);
+  console.log("elemValue", elemValue); // тягає хвостик - крайню праву точку (тимчасову): видаляє точку, додає точку
+
+  table.remove(resultArr[resultArr.length - 1][0], resultArr[resultArr.length - 1][0]);
+  table.addData([[elemTime, elemValue]]);
+}
+
+function redrawChart() {} // додає у графік нову точку
+// ↑↑↑ FUNCTIONS DECLARATION ↑↑↑
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

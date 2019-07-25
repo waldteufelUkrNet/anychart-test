@@ -9,8 +9,8 @@ let dataType      = 'areaspline', // тип графіку 'areaspline'/'candles
     timeStep      = 5,            // інтервал між точками на графіку
     stringType    = '?',          // тип даних: '?' для areaspline та 'Ohlc?' для candlestick/ohlc
     stringSymbol  = 'EURUSD',     // назва торгової пари, потрібна для формування рядка запиту
-    dataArr,                      // адреса для отримання масиву даних
-    resultArr     = [];           // масив з перероблених вхідних даних, придатний для обробки бібліотекою
+    resultArr     = [],           // масив з перероблених вхідних даних, придатний для обробки бібліотекою
+    tailPoint     = [];           // хвостова (рандомна) точка графіка
 
 let table, lineMapping, OHLCMapping, chart, line;
 
@@ -132,9 +132,8 @@ function getDataArr() {
 // викликає функцію позначення типу курсору
 // викликає функцію включення/виключення скролу часу графіка
 
-  dataArr = domain + '/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol;
     $.ajax({
-    url     : dataArr,
+    url     : domain + '/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol,
     success : function (data) {
 
       resultArr  = [];
@@ -143,7 +142,7 @@ function getDataArr() {
 
         // [{Date: "2019-07-17T18:58:00Z", Value: 1.23456, IsBrake: false },{...},{...}]
         // -> -> -> -> ->
-        // [{x: Date.UTC(2019, 07, 17, 18, 58), value: 1.23456},{...},{...}]
+        // [[Date.UTC(2019, 07, 17, 18, 58), 1.23456],[...],[...]]
         for (let i = 0; i < data.length; i++) {
 
           let tempTimeString = data[i].Date;
@@ -155,14 +154,15 @@ function getDataArr() {
 
           let tempArr = [];
           tempArr.push( Date.UTC(tempYear, tempMonth, tempDay, tempHours, tempMinutes) );
+          // tempArr.push(  data[i].Date );
           tempArr.push(  data[i].Value );
 
           resultArr.push( tempArr );
         }
 
-        // lastPoint = resultArr[resultArr.length-1];
-        // // в перший раз тимчасова точка (145 рандомна) = 144
-        // resultArr.push(resultArr[resultArr.length-1]);
+        // в перший раз хвостова (рандомна) точка береться з останньої точки графіка
+        tailPoint = resultArr[resultArr.length-1];
+        resultArr.push( tailPoint );
 
       } else if ( dataType == 'candlestick' || dataType == 'ohlc' ) {
 
@@ -172,7 +172,7 @@ function getDataArr() {
 
         for (let i = 0; i < data.length; i++) {
 
-          let tempTimeString = data[i].DateOpen;
+          let tempTimeString = data[i].DateClose;
           let tempYear       = +tempTimeString.slice(0,4);
           let tempMonth      = +tempTimeString.slice(5,7) - 1;
           let tempDay        = +tempTimeString.slice(8,10);
@@ -189,9 +189,14 @@ function getDataArr() {
           resultArr.push(tempArr);
         }
 
-        // // в перший раз тимчасова точка (145 рандомна) бере значення у Close 144-ї
-        // tempPoint.push([lastPoint[0], lastPoint[4], lastPoint[4], lastPoint[4], lastPoint[4]]);
-        // resultArr.push(tempPoint);
+        // в перший раз хвостова (рандомна) точка береться з останньої точки графіка (з Close)
+        tailPoint[0] = resultArr[resultArr.length-1][0];
+        tailPoint[1] = resultArr[resultArr.length-1][1];
+        tailPoint[2] = resultArr[resultArr.length-1][2];
+        tailPoint[3] = resultArr[resultArr.length-1][3];
+        tailPoint[4] = resultArr[resultArr.length-1][4];
+
+        resultArr.push( tailPoint );
       }
 
       drawChart();
@@ -199,7 +204,6 @@ function getDataArr() {
       toggleScroller();
     }
   });
-
 }
 
 function drawChart() {
@@ -301,7 +305,6 @@ function drawChart() {
 
   // стерти водяний знак
   document.getElementsByClassName('anychart-credits')[0].remove();
-
 }
 
 function setCrosshairType() {
@@ -330,25 +333,93 @@ setInterval(function(){
   $.ajax({
     url     : domain + '/api/Stock?timer=realOne&symbol=' + stringSymbol,
     success : function (data) {
-      console.log("data", data);
-      wagTheTail(data[0].Date, data[0].Value);
+      wagTheTail({time: data[0].Date, value: data[0].Value});
     }
   });
 },2000);
 
+// setTimeout(function(){
+//   addPoint();
+// },2000);
 
-function wagTheTail(elemTime, elemValue) {
-  console.log("elemTime ", elemTime);
-  console.log("elemValue", elemValue);
+function wagTheTail(point) {
 // тягає хвостик - крайню праву точку (тимчасову): видаляє точку, додає точку
+// викликається зі сторони бекенду
 
+  let tempYear       = +point.time.slice(0,4);
+  let tempMonth      = +point.time.slice(5,7) - 1;
+  let tempDay        = +point.time.slice(8,10);
+  let tempHours      = +point.time.slice(11,13);
+  let tempMinutes    = +point.time.slice(14,16);
+
+  let time = Date.UTC(tempYear, tempMonth, tempDay, tempHours, tempMinutes) ;
+  let value = Math.round(point.value*100000)/100000;
+
+  // видалити хвостову (рандомну) точку
   table.remove( resultArr[resultArr.length-1][0], resultArr[resultArr.length-1][0] );
-  table.addData( [[elemTime, elemValue]] );
 
+  if ( dataType == 'areaspline' ) {
+
+    table.addData( [[time, value]] );
+
+  } else if ( dataType == 'candlestick' || dataType == 'ohlc' ) {
+
+    tailPoint[0] = time;
+    tailPoint[4] = value;
+
+    if ( tailPoint[2] < value || !tailPoint[2] ) { tailPoint[2] = value }
+    if ( tailPoint[3] > value || !tailPoint[3] ) { tailPoint[3] = value }
+
+    table.addData( [tailPoint] );
+
+    // console.log(tailPoint);
+  }
 }
 
-function redrawChart() {
+function addPoint() {
 // додає у графік нову точку
+// викликається зі сторони бекенду
+
+  $.ajax({
+    url     : domain + '/api/Stock' + stringType + 'timer=' + timeStep + '&symbol=' + stringSymbol,
+    success : function (data) {
+
+      // видалити хвостову (рандомну) точку
+      table.remove( resultArr[resultArr.length-1][0], resultArr[resultArr.length-1][0] );
+
+      let newPoint = data[data.length-1];
+
+      if (dataType == 'areaspline') {
+        let tempYear    = +newPoint.Date.slice(0,4);
+        let tempMonth   = +newPoint.Date.slice(5,7) - 1;
+        let tempDay     = +newPoint.Date.slice(8,10);
+        let tempHours   = +newPoint.Date.slice(11,13);
+        let tempMinutes = +newPoint.Date.slice(14,16);
+        let time        = Date.UTC(tempYear, tempMonth, tempDay, tempHours, tempMinutes);
+
+        // додати реальну точку
+        table.addData( [[time, newPoint.Value]] );
+
+        // відновити хвостик
+        table.addData( [[time+1000, newPoint.Value]] );
+
+      } else if ( dataType == 'candlestick' || dataType == 'ohlc' ) {
+        let tempYear    = +newPoint.DateClose.slice(0,4);
+        let tempMonth   = +newPoint.DateClose.slice(5,7) - 1;
+        let tempDay     = +newPoint.DateClose.slice(8,10);
+        let tempHours   = +newPoint.DateClose.slice(11,13);
+        let tempMinutes = +newPoint.DateClose.slice(14,16);
+        let time        = Date.UTC(tempYear, tempMonth, tempDay, tempHours, tempMinutes);
+
+        // додати реальну точку
+        table.addData( [[time, newPoint.Open, newPoint.Hight, newPoint.Low, newPoint.Close]] );
+
+        // відновити хвостик
+        table.addData( [[time, newPoint.Close, newPoint.Close, newPoint.Close, newPoint.Close]] );
+      }
+    }
+  });
+
 }
 
 // ↑↑↑ FUNCTIONS DECLARATION ↑↑↑

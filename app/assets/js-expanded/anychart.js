@@ -23,7 +23,11 @@ let dataScroller  = 'off';
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// ↓↓↓ START WORKING ↓↓↓
+
 getDataArr();
+
+// ↑↑↑ START WORKING ↑↑↑
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,8 +41,8 @@ let arrOfTimerBtns = $('.graphic__time-btn');
 $(arrOfTypeBtns).click(function(){
   // type-buttons highlighting
   for (let i = 0; i < arrOfTypeBtns.length; i++) {
-    $(arrOfTypeBtns[i]).removeClass('graphic__type-btn_active');
-    $(this).addClass('graphic__type-btn_active');
+    $(arrOfTypeBtns[i]).removeClass('graphic__btn_active');
+    $(this).addClass('graphic__btn_active');
     // визначення типу графіку
     dataType = $(this).attr('data-type');
   }
@@ -48,8 +52,8 @@ $(arrOfTypeBtns).click(function(){
     for (let i = 0; i < arrOfTimerBtns.length; i++) {
       // якщо на candlestick/ohlc нема відповідного часового інтервалу, переключати на 30хв
       if ($(arrOfTimerBtns[i]).attr('data-time') != '30' && $(arrOfTimerBtns[i]).attr('data-time') != '60') {
-        if ($(arrOfTimerBtns[i]).hasClass('graphic__time-btn_active')) {
-          $(arrOfTimerBtns[3]).addClass('graphic__time-btn_active');
+        if ($(arrOfTimerBtns[i]).hasClass('graphic__btn_active')) {
+          $(arrOfTimerBtns[3]).addClass('graphic__btn_active');
           timeStep = 30;
         }
         $(arrOfTimerBtns[i]).css({'display':'none'}).removeClass('graphic__time-btn_active');
@@ -68,8 +72,8 @@ $(arrOfTypeBtns).click(function(){
 $(arrOfTimerBtns).click(function(){
   // підсвітка кнопок часу та вибір інтервалу, потрібного для формування рядка запиту
   for (var i = 0; i < arrOfTimerBtns.length; i++) {
-    $(arrOfTimerBtns[i]).removeClass('graphic__time-btn_active');
-    $(this).addClass('graphic__time-btn_active');
+    $(arrOfTimerBtns[i]).removeClass('graphic__btn_active');
+    $(this).addClass('graphic__btn_active');
   }
   timeStep = +$(this).attr('data-time');
   getDataArr()
@@ -87,8 +91,8 @@ let arrOfCrosshairsBtns = $('.graphic__crosshair-btn');
 $(arrOfCrosshairsBtns).click(function(){
   // підсвітка кнопок типу курсору
   for (var i = 0; i < arrOfCrosshairsBtns.length; i++) {
-    $(arrOfCrosshairsBtns[i]).removeClass('graphic__crosshair-btn_active');
-    $(this).addClass('graphic__crosshair-btn_active');
+    $(arrOfCrosshairsBtns[i]).removeClass('graphic__btn_active');
+    $(this).addClass('graphic__btn_active');
   }
   // визначення типу курсору
   dataСrosshair = $(this).attr('data-crosshair');
@@ -108,8 +112,8 @@ let arrOfScrollerBtns = $('.graphic__scroller-btn');
 $(arrOfScrollerBtns).click(function(){
   // підсвітка кнопок типу курсору
   for (var i = 0; i < arrOfScrollerBtns.length; i++) {
-    $(arrOfScrollerBtns[i]).removeClass('graphic__scroller-btn_active');
-    $(this).addClass('graphic__scroller-btn_active');
+    $(arrOfScrollerBtns[i]).removeClass('graphic__btn_active');
+    $(this).addClass('graphic__btn_active');
   }
 
   // визначення стану скролу
@@ -119,6 +123,35 @@ $(arrOfScrollerBtns).click(function(){
 });
 
 // ↑↑↑ SCROLLER-SWITCH-BUTTONS BEHAVIOR ↑↑↑
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ↓↓↓ DRAWING TOOLS ↓↓↓
+
+$('[data-annotation-type]').click(function(){
+
+  let drawingType = $(this).attr('data-annotation-type');
+  console.log("drawingType", drawingType);
+
+  if ( drawingType == 'removeAllAnnotations' ) {
+    chart.annotations().removeAllAnnotations();
+  } else {
+
+    // an auxiliary variable for working with annotations
+    let plot = chart.plot(0);
+    let controller = plot.annotations();
+
+    // start drawing the annotation
+    controller.startDrawing(drawingType);
+
+  }
+});
+
+
+
+// ↑↑↑ DRAWING TOOLS ↑↑↑
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -326,21 +359,15 @@ function toggleScroller() {
     chart.scroller().enabled(false);
   } else if ( dataScroller == 'on' ) {
     chart.scroller().enabled(true);
+    if ( dataType == 'areaspline' ) {
+      chart.scroller().line(lineMapping);
+    } else if ( dataType == 'candlestick' ) {
+      chart.scroller().candlestick(OHLCMapping);
+    } else if ( dataType == 'ohlc' ) {
+      chart.scroller().ohlc(OHLCMapping);
+    }
   }
 }
-
-setInterval(function(){
-  $.ajax({
-    url     : domain + '/api/Stock?timer=realOne&symbol=' + stringSymbol,
-    success : function (data) {
-      wagTheTail({time: data[0].Date, value: data[0].Value});
-    }
-  });
-},2000);
-
-// setTimeout(function(){
-//   addPoint();
-// },2000);
 
 function wagTheTail(point) {
 // тягає хвостик - крайню праву точку (тимчасову): видаляє точку, додає точку
@@ -428,16 +455,23 @@ function addPoint() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// function getCoords(elem) {
-//   var box = elem.getBoundingClientRect();
-//   return {
-//     top    : box.top + pageYOffset,
-//     bottom : box.bottom + pageYOffset,
-//     left   : box.left + pageXOffset,
-//     right  : box.right + pageXOffset,
-//     height : box.bottom - box.top,
-//     width  : box.right - box.left
-//   };
-// }
+// ↓↓↓ TEST ↓↓↓
 
-// // made by waldteufel@ukr.net
+setInterval(function(){
+  $.ajax({
+    url     : domain + '/api/Stock?timer=realOne&symbol=' + stringSymbol,
+    success : function (data) {
+      wagTheTail({time: data[0].Date, value: data[0].Value});
+    }
+  });
+},2000);
+
+// setTimeout(function(){
+//   addPoint();
+// },5000);
+
+// ↑↑↑ TEST ↑↑↑
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

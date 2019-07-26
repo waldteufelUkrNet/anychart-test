@@ -73,20 +73,31 @@ body {
   width: 800px;
   height: 500px;
   margin: 50px auto 0;
-  padding-top: 40px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .graphic {
   border: 2px solid dodgerblue;
-  height: -webkit-calc( 500px - 40px - 4px);
-  height: calc( 500px - 40px - 4px);
   width: 100%;
+  -webkit-box-ordinal-group: 3;
+  -webkit-order: 2;
+      -ms-flex-order: 2;
+          order: 2;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
 
 .graphic__btns-wrapper {
-  position: absolute;
-  top: 5px;
-  left: 5px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -99,10 +110,18 @@ body {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-ordinal-group: 2;
+  -webkit-order: 1;
+      -ms-flex-order: 1;
+          order: 1;
 }
 
-.graphic__type-btns-list, .graphic__crosshair-btns-list, .graphic__scroller-btns-list {
+.graphic__list {
   margin-right: 6px;
+  margin-bottom: 6px;
   height: 30px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -118,9 +137,10 @@ body {
           align-items: center;
 }
 
-.graphic__type-btn, .graphic__crosshair-btn, .graphic__scroller-btn {
+.graphic__btn {
   background-color: #cacaca;
-  font: 12px mpr;
+  font: 16px gost;
+  text-align: center;
   height: 30px;
   width: 30px;
   padding: 5px;
@@ -132,60 +152,23 @@ body {
   margin-right: 1px;
 }
 
-.graphic__type-btn img, .graphic__crosshair-btn img, .graphic__scroller-btn img {
+.graphic__btn img {
   width: 20px;
   height: 20px;
 }
 
-.graphic__type-btn:hover, .graphic__crosshair-btn:hover, .graphic__scroller-btn:hover {
+.graphic__btn:hover {
   color: white;
   background-color: #888;
 }
 
-.graphic__type-btn_active, .graphic__crosshair-btn_active, .graphic__scroller-btn_active {
+.graphic__btn_active {
   color: white;
   background-color: #555555;
-}
-
-.graphic__time-btns-list {
-  margin-right: 6px;
-  height: 40px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 .graphic__time-btn {
-  background-color: #cacaca;
-  font: 16px gost;
   width: 50px;
-  height: 30px;
   white-space: nowrap;
-  text-align: center;
   padding: 7px 0 0 0;
-  color: #555555;
-  cursor: pointer;
-  -webkit-transition: color .3s, background-color .3s;
-  -o-transition: color .3s, background-color .3s;
-  transition: color .3s, background-color .3s;
-  margin-right: 1px;
-}
-
-.graphic__time-btn:hover {
-  color: white;
-  background-color: #888;
-}
-
-.graphic__time-btn_active {
-  color: white;
-  background-color: #555555;
 }

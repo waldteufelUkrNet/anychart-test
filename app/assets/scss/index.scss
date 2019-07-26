@@ -13,34 +13,34 @@ body {
   width                : 800px;
   height               : 500px;
   margin               : 50px auto 0;
-  padding-top          : 40px;
+  display              : flex;
+  flex-direction       : column;
 }
 
 .graphic {border: 2px solid dodgerblue;
-  height               : calc( 500px - 40px - 4px );
   width                : 100%;
+  order                : 2;
+  flex-grow            : 1;
+
   &__btns-wrapper {
-    position           : absolute;
-    top                : 5px;
-    left               : 5px;
     display            : flex;
     justify-content    : flex-start;
     align-items        : center;
+    flex-wrap          : wrap;
+    order              : 1;
   }
-  &__type-btns-list,
-  &__crosshair-btns-list,
-  &__scroller-btns-list {
+  &__list {
     margin-right       : 6px;
+    margin-bottom      : 6px;
     height             : 30px;
     display            : flex;
     justify-content    : flex-start;
     align-items        : center;
   }
-  &__type-btn,
-  &__crosshair-btn,
-  &__scroller-btn {
+  &__btn {
     background-color   : #cacaca;
-    font               : 12px mpr;
+    font               : 16px gost;
+    text-align         : center;
     height             : 30px;
     width              : 30px;
     padding            : 5px;
@@ -61,32 +61,9 @@ body {
       background-color : #555555;
     }
   }
-  &__time-btns-list {
-    margin-right       : 6px;
-    height             : 40px;
-    display            : flex;
-    justify-content    : flex-start;
-    align-items        : center;
-  }
   &__time-btn {
-    background-color   : #cacaca;
-    font               : 16px gost;
     width              : 50px;
-    height             : 30px;
     white-space        : nowrap;
-    text-align         : center;
     padding            : 7px 0 0 0;
-    color              : #555555;
-    cursor             : pointer;
-    transition         : color .3s, background-color .3s;
-    margin-right       : 1px;
-    &:hover {
-      color            : white;
-      background-color : #888;
-    }
-    &_active {
-      color            : white;
-      background-color : #555555;
-    }
   }
 }

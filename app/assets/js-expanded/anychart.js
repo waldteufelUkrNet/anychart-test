@@ -133,10 +133,23 @@ $(arrOfScrollerBtns).click(function(){
 $('[data-annotation-type]').click(function(){
 
   let drawingType = $(this).attr('data-annotation-type');
-  console.log("drawingType", drawingType);
 
   if ( drawingType == 'removeAllAnnotations' ) {
     chart.annotations().removeAllAnnotations();
+  } else if ( drawingType == 'label' ) {
+
+    // an auxiliary variable for working with annotations
+    let plot = chart.plot(0);
+    let controller = plot.annotations();
+    controller.label({
+        xAnchor: "center-top",
+        valueAnchor: 17.24,
+        text: "Buy"
+    });
+
+    // start drawing the annotation
+    // controller.startDrawing(drawingType);
+
   } else {
 
     // an auxiliary variable for working with annotations
@@ -330,6 +343,9 @@ function drawChart() {
   // виключення скролу часу в графіку
   chart.scroller().enabled(false);
 
+// add sma indicator
+chart.plot(0).sma(lineMapping, 0, "line");
+
   // вписати графік в контейнер
   chart.container("graphic");
 
@@ -475,3 +491,4 @@ setInterval(function(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

@@ -122,16 +122,27 @@ $(arrOfScrollerBtns).click(function () {
 
 $('[data-annotation-type]').click(function () {
   var drawingType = $(this).attr('data-annotation-type');
-  console.log("drawingType", drawingType);
 
   if (drawingType == 'removeAllAnnotations') {
     chart.annotations().removeAllAnnotations();
-  } else {
+  } else if (drawingType == 'label') {
     // an auxiliary variable for working with annotations
     var plot = chart.plot(0);
-    var controller = plot.annotations(); // start drawing the annotation
+    var controller = plot.annotations();
+    controller.label({
+      xAnchor: "center-top",
+      valueAnchor: 17.24,
+      text: "Buy"
+    }); // start drawing the annotation
+    // controller.startDrawing(drawingType);
+  } else {
+    // an auxiliary variable for working with annotations
+    var _plot = chart.plot(0);
 
-    controller.startDrawing(drawingType);
+    var _controller = _plot.annotations(); // start drawing the annotation
+
+
+    _controller.startDrawing(drawingType);
   }
 }); // ↑↑↑ DRAWING TOOLS ↑↑↑
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -296,7 +307,9 @@ function drawChart() {
   indicator.label().background().fill("green");
   indicator.label().fontColor("white"); // виключення скролу часу в графіку
 
-  chart.scroller().enabled(false); // вписати графік в контейнер
+  chart.scroller().enabled(false); // add sma indicator
+
+  chart.plot(0).sma(lineMapping, 0, "line"); // вписати графік в контейнер
 
   chart.container("graphic"); // ініціалізувати графік
 

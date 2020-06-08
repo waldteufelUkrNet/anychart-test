@@ -1,0 +1,21 @@
+// ↓↓↓ modules: tabs (start) ↓↓↓
+
+//- style
+  include info-area.css
+
+.tab-area
+  .tab-headers-wrapper
+    .tab-header.tab-header_active(data-tab='')
+    .tab-header(data-tab='1')
+    .tab-header(data-tab='2')
+    .tab-header(data-tab='3')
+  .tab-bodies-wrapper
+    .tab-body.tab-body_active(data-tab='')
+    .tab-body(data-tab='1')
+    .tab-body(data-tab='2')
+    .tab-body(data-tab='3')
+
+//- script
+  include ../minjs/info-area/info-area.js
+
+// ↑↑↑ modules: tabs (end) ↑↑↑

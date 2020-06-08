@@ -11,7 +11,7 @@ var gulp         = require('gulp'),                  //
     babel        = require("gulp-babel"),            // ES6 -> ES5
     browserSync  = require('browser-sync').create(), // створення віртуального серверу  для live reload
     cache        = require('gulp-cache'),            // бібліотека кешування
-    // concat       = require('gulp-concat'),           // склеювання js-файлів
+    concat       = require('gulp-concat'),           // склеювання js-файлів
     // cssconcat    = require('gulp-concat-css'),       // склеювання css-файлів
     // cssnano      = require('gulp-cssnano'),          // мініфікація css-файлів
     csso         = require('gulp-csso'),             // мініфікація css-файлів
@@ -73,28 +73,7 @@ gulp.task('sass', function() {
   .pipe(browserSync.reload({stream:true}))
 });
 
-// препроцесинг scss - BEM-blocks
-gulp.task('sass-bem', function() {
-  return gulp.src(['app/assets/BEM-blocks/**/*.+(scss|sass)'])
-  .pipe(sass({outputStyle : 'expanded'}))
-  .on('error', notify.onError({
-    message : 'Error: <%= error.message %>',
-    title   : 'sass error'
-  }))
-  .pipe(autoprefixer({
-    browsers : ['last 10 versions', '> 1%', 'ie 8', 'ie 7'],
-    cascade  : true
-  }))
-  // .pipe(csso({
-  //   restructure : true, // злиття декларацій
-  //   sourceMap   : false,
-  //   debug       : false // виведення в консоль детальної інформації
-  // }))
-  .pipe(gulp.dest('app/assets/BEM-blocks'))
-  // .pipe(browserSync.reload({stream:true}))
-});
-
-//мініфікація js - style.js
+// ES6 -> ES5, перенесення у іншу теку - main.js
 gulp.task('js', function() {
   return gulp.src(['app/assets/js-expanded/*.js'])
     .pipe(babel())
@@ -103,30 +82,35 @@ gulp.task('js', function() {
     .pipe(browserSync.reload({stream:true}));
 });
 
-//мініфікація js - BEM-blocks
-gulp.task('js-bem', function() {
-  return gulp.src(['app/assets/BEM-blocks/**/*.js', '!app/assets/BEM-blocks/minjs/**/*.js'])
+// ES6 -> ES5, склеювання, перенесення у іншу теку - modules
+gulp.task('js-modules', function() {
+  return gulp.src(['app/assets/modules/**/*.js', '!app/assets/modules/minjs/**/*.js'])
     .pipe(babel())
+    .pipe(concat({ path: 'modules.js'}))
     // .pipe(uglify())
-    .pipe(gulp.dest('app/assets/BEM-blocks/minjs'));
+    .pipe(gulp.dest('app/assets/js'))
+    .pipe(browserSync.reload({stream:true}));
 });
-
 
 // слідкування за змінами у збережених файлах, виклик препроцесингу та live reload
 gulp.task('watch', gulp.parallel(
-  gulp.series('sass-bem', 'sass', 'js-bem', 'js', 'pug', 'browser-sync'),
+  gulp.series('sass', 'js-modules', 'js', 'pug', 'browser-sync'),
   function() {
-    gulp.watch(['app/assets/scss/**/*.+(scss|sass)'], gulp.series('sass'));
-    gulp.watch(['app/assets/BEM-blocks/*/*.+(scss|sass)'], gulp.series('sass-bem','sass'));
+    gulp.watch(['app/assets/scss/**/*.+(scss|sass)', 'app/assets/modules/**/*.scss'], gulp.series('sass'));
 
     gulp.watch(['app/assets/js-expanded/*.js'], gulp.series('js'));
-    gulp.watch(['app/assets/BEM-blocks/**/*.js', '!app/assets/BEM-blocks/minjs/**/*.js'], gulp.series('js-bem','pug'));
+    gulp.watch(['app/assets/modules/**/*.js', '!app/assets/modules/minjs/**/*.js'], gulp.series('js-modules'));
 
     gulp.watch(['app/**/*.pug'], gulp.series('pug'));
 
     gulp.watch('app/*.html').on('change',  browserSync.reload);
   }
 ));
+
+
+
+
+
 
 // чищення каталогу dist
 gulp.task('clean', function(done) {

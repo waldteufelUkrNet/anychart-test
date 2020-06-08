@@ -1,0 +1,15 @@
+.info-tape {
+  height           : 28px;
+  display          : flex;
+  line-height      : 28px;
+  background-color : #bfcddb;
+  padding-left     : 6px;
+  border-top       : 1px dotted grey;
+  &__name {
+    margin-right   : 6px;
+    font-weight    : 900;
+  }
+  &__divider {
+    margin         : 0 12px;
+  }
+}

@@ -1,0 +1,72 @@
+.info-area-table-wrapper {
+  max-height           : 225px;
+  height               : calc(100% - 28px);
+}
+
+.info-area-table {
+  width                : 100%;
+  white-space          : nowrap;
+  border-collapse      : collapse;
+  th, td {
+    border             : 1px solid lightgrey;
+    padding            : 4px;
+    text-align         : left;
+  }
+  thead {
+    height             : 22px;
+    width              : 100%;
+    position           : relative;
+    z-index            : 1;
+    th {
+      background-color : #ccc;
+      border-right     : 1px solid #aaa;
+      // &:last-of-type {
+      //   width          : 100%;
+      // }
+    }
+  }
+  tbody {
+    max-height         : 185px;
+    width              : 100%;
+    margin-top         : 0px;
+    overflow-y         : scroll;
+    tr:nth-of-type(even) {
+      background-color : #ddd;
+    }
+  }
+  &__options {
+    margin             : 0;
+    padding            : 0 2px;
+    height             : 24px;
+    width              : 30px;
+    border             : 1px solid #aaa;
+    font-weight        : 900;
+    font-size          : 1.24em;
+    cursor             : pointer;
+    overflow           : hidden;
+    position           : absolute;
+    z-index            : 0;
+    top                : 50%;
+    left               : 50%;
+    transform          : translate(-50%,-50%);
+    svg {
+      height           : 16px;
+      width            : auto;
+    }
+  }
+}
+
+.info-area-table_with-btns {
+  max-height           : 198px;
+  &:first-of-type {
+    tbody {
+      line-height      : 20px;
+      td:nth-last-of-type(1),
+      td:nth-last-of-type(2) {
+        width          : 36px;
+        position       : relative;
+        padding        : 0;
+      }
+    }
+  }
+}

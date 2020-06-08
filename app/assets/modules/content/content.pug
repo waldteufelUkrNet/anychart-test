@@ -1,0 +1,19 @@
+// ↓↓↓ modules: content (start) ↓↓↓
+
+//- style
+  include content.css
+
+#content.tab-area
+  .tab-headers-wrapper
+    .tab-header.tab-header_active(data-tab='BTCETH') BTCETH
+    //- .tab-header(data-tab='test') test
+  .tab-bodies-wrapper
+    .tab-body.tab-body_active(data-tab='BTCETH')
+      img.loader(src="assets/img/loader.gif", alt="loader")
+      include ../buy-sell-btns/buy-sell-btns.pug
+      .graphic
+    //- .tab-body(data-tab='test') test
+//- script
+  include ../minjs/content/content.js
+
+// ↑↑↑ modules: content (end) ↑↑↑

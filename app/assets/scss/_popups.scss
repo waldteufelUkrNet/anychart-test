@@ -1,0 +1,330 @@
+#popups-wrapper {
+  position           : fixed;
+  z-index            : 2000;
+  top                : 0;
+  left               : 0;
+  height             : 100vh;
+  width              : 100vw;
+  cursor             : not-allowed;
+  display            : none;
+}
+
+.popup {
+  min-width          : 300px;
+  max-width          : 600px;
+  min-height         : 100px;
+  border             : 1px solid white;
+  border-radius      : 4px;
+  position           : absolute;
+  left               : 50%;
+  top                : -110%;
+  transform          : translate(-50%, 0);
+  background-color   : #fff;
+  cursor             : default;
+  box-shadow         : 0 0 10px grey;
+  transition         : top .3s;
+  &__head {
+    height           : 26px;
+    display          : flex;
+    justify-content  : space-between;
+    align-items      : center;
+    padding          : 5px;
+    img {
+      height         : 15px;
+      width          : auto;
+    }
+  }
+  &__close-img {
+    cursor           : pointer;
+  }
+  &__body {
+    padding          : 0 10px;
+    font             : 14px rr;
+
+  }
+  &__header {
+    font             : 18px rBold;
+    text-shadow      : 2px 2px 2px lightgrey;
+    text-align       : center;
+    padding-bottom   : 10px;
+    color            : #537091;
+  }
+  &__text {}
+  &__author {
+    text-align       : right;
+    padding-right    : 10px;
+  }
+  &__footer {
+    height           : 40px;
+    padding          : 5px;
+    display          : flex;
+    justify-content  : center;
+    align-items      : center;
+  }
+  &__btn {
+    border           : 1px solid lightgrey;
+    border-radius    : 4px;
+    margin           : 0 4px;
+    height           : 25px;
+    min-width        : 60px;
+    padding          : 0 6px;
+    font             : 14px rr;
+    cursor           : pointer;
+  }
+  &__write-message {}
+  &__write-message-subject {
+    display: block;
+    width: 100%;
+    min-width: calc(300px - 32px);
+    max-width: calc(600px - 32px);
+    font: 14px mpr;
+    margin-bottom: 10px;
+  }
+  &__write-message-text {
+    display: block;
+    width: 100%;
+    min-height: 100px;
+    min-width: calc(300px - 32px);
+    max-width: calc(600px - 32px);
+    font: 14px rr;
+  }
+  &__change-password {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 6px;
+    align-items: center;
+  }
+  &__label {}
+  &__input-wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    border-right-color: transparent;
+    border-radius: 4px 0 0 4px / 4px 0 0 4px;
+  }
+  &__password {
+    height: 30px;
+    min-width: 120px;
+    border: 1px solid lightgrey;
+    border-right-color: transparent;
+    border-radius: 4px 0 0 4px / 4px 0 0 4px;
+    padding: 0 6px;
+    font: 16px mpr;
+  }
+  &__show-hide-pass {
+    height: 30px;
+    width: 30px;
+    border: 1px solid #6a9a1f;
+    border-radius: 0 4px 4px 0 / 0 4px 4px 0;
+    background-color: #6a9a1f;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+  }
+  &__withdrawal-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+    height: 30px;
+  }
+  &__withdrawal-input {
+    font: 16px mpr;
+    padding: 0 6px;
+    border: 1px solid lightgrey;
+  }
+  &__withdrawal-select {
+    border: 1px solid lightgrey;
+  }
+  &__profile-editor-form {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 6px;
+    align-items: center;
+  }
+  &__profile-editor-input {
+    height: 30px;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+    font: 16px mpr;
+    padding: 0 6px;
+    line-height: 30px;
+  }
+  input, textarea {
+    padding: 4px 6px;
+    &::placeholder {
+      font             : 14px rr;
+    }
+  }
+  &__validation-error {
+    font             : 14px rr;
+    color            : red;
+    display          : none;
+    &_active {
+      display        : block;
+    }
+  }
+
+  &__tab-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  &__tab-header {
+    border: 1px solid #537091;
+    border-radius: 4px 4px 0 0;
+    padding: 0 6px;
+    cursor: pointer;
+    font: 14px rr;
+    color: #537091;
+    transition: background-color .3s, color .3s;
+    position: relative;
+    top: 1px;
+    &:hover,
+    &_active {
+      background-color: #537091;
+      color: white;
+    }
+  }
+  &__forms-wrapper {
+    border: 1px solid #537091;
+    padding: 6px 3px;
+  }
+  &__make-deposit-form {
+    display  : none;
+    &_active {
+      display: block;
+    }
+  }
+  &__make-deposit-amount-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    height: 30px;
+    margin-bottom: 10px;
+  }
+  &__make-deposit-amount-input {
+    width        : 207px;
+    border           : 1px solid lightgrey;
+    font             : 14px rr;
+    color            : #537091;
+    &::placeholder {
+      font             : 14px rr;
+      color: #537091;
+      padding-top: 10px;
+      opacity: 1;
+    }
+  }
+  &__make-deposit-select {
+    width: 65px;
+    cursor: pointer;
+    border: 1px solid lightgrey;
+    position: relative;
+    left: -1px;
+    font             : 14px rr;
+    color: #537091;
+  }
+  &__make-deposit-checkbox-wrapper {
+    display          : flex;
+    font             : 14px rr;
+    color            : #537091;
+    max-width        : 400px;
+    input {
+      width: 20px;
+      height: 20px;
+    }
+    a {
+      color : MediumTurquoise;
+      font  : 15px ri;
+    }
+  }
+
+  &__make-deposit-card-wrapper {
+    display          : flex;
+    justify-content  : flex-start;
+    height           : 30px;
+    margin-bottom    : 10px;
+    font             : 14px rr;
+    color            : #537091;
+  }
+  &__make-deposit-card-pseudoinput {
+    min-width        : 150px;
+    // border           : 1px solid lightgrey;
+    font             : 14px rr;
+    color            : #537091;
+    padding-top      : 3px;
+  }
+  &__make-deposit-card-pseudoselect {
+    height: 30px;
+    width: 122px;
+    border: 1px solid lightgrey;
+    position: relative;
+    left: -1px;
+    cursor           : pointer;
+    &::after {
+      display: block;
+      content: '';
+      border-top    : 6px solid #537091;
+      border-left   : 3px solid transparent;
+      border-right  : 3px solid transparent;
+      border-bottom : 3px solid transparent;
+      position      : absolute;
+      top           : 10px;
+      right         : 2px;
+    }
+  }
+  &__make-deposit-card-current {
+    height      : 100%;
+    user-select : none;
+  }
+  &__make-deposit-card {
+    display         : flex;
+    justify-content : flex-start;
+    align-items     : center;
+    width           : 120px;
+    padding         : 0 3px;
+    user-select     : none;
+    cursor          : pointer;
+    position        : relative;
+    &:hover {
+      background-color: #eee;
+    }
+    svg {
+      font-size: 26px;
+      margin-right: 3px;
+    }
+  }
+  &__make-deposit-cards-wrapper {
+    display: none;
+    position: absolute;
+    z-index:10;
+    left: -1px;
+    border: 1px solid lightgrey;
+    background-color: #fff;
+  }
+
+  &__make-deposit-card-cover-for-click {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index:10;
+  }
+
+  &__make-deposit-btn {
+    border           : 1px solid #537091;
+    background-color : #537091;
+    border-radius    : 4px;
+    margin           : 0 4px;
+    height           : 25px;
+    min-width        : 60px;
+    padding          : 0 6px;
+    font             : 14px rr;
+    cursor           : pointer;
+    color            : white;
+    display          : none;
+    &_active {
+      display        : block;
+    }
+  }
+}

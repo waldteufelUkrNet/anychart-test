@@ -1,0 +1,124 @@
+#aside-close-btn {
+  border: 1px solid #aaa;
+  border-radius: 0;
+  background-color: lightgrey;
+  height: 20px;
+  width: 20px;
+  top: 1px;
+  right: 1px;
+}
+
+.order-placing__input {
+  border: 1px solid #aaa;
+  border-radius: 0;
+}
+
+.buy-sell-btns__input {
+  border-radius: 0;
+}
+
+.buy-sell-btns__input border {
+  top: 1px solid #aaa;
+  bottom: 1px solid #aaa;
+  left: 0px solid transparent;
+  right: 0px solid transparent;
+}
+
+.buy-sell-btns__couter {
+  border-radius: 0;
+}
+
+.popup__make-deposit-select {
+  border: 1px solid grey;
+  border-radius: 0;
+}
+
+.popup__make-deposit-card-pseudoselect::after {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.popup__withdrawal-input {
+  margin: 0;
+}
+
+.popup__withdrawal-select {
+  border: 1px solid grey;
+  border-left: 0px solid transparent;
+  border-radius: 0;
+  margin: 0;
+  height: 30px;
+}
+
+.popup__password {
+  margin: 0;
+}
+
+.popup__show-hide-pass {
+  margin: 0;
+  border-left: 0px solid transparent;
+}
+
+.popup__profile-editor-input::-webkit-input-placeholder {
+  padding-top: 6px;
+  opacity: 1;
+}
+
+.popup__profile-editor-input::-moz-placeholder {
+  padding-top: 6px;
+  opacity: 1;
+}
+
+.popup__profile-editor-input:-ms-input-placeholder {
+  padding-top: 6px;
+  opacity: 1;
+}
+
+.popup__profile-editor-input::-ms-input-placeholder {
+  padding-top: 6px;
+  opacity: 1;
+}
+
+.popup__profile-editor-input::placeholder {
+  padding-top: 6px;
+  opacity: 1;
+}
+
+.header .logo {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  text-decoration: none;
+}
+
+#imgCompany {
+  height: 40px;
+  width: auto;
+  margin-bottom: 5px;
+  display: block;
+}
+
+#nameCompany {
+  color: #60abdd;
+  font-size: 23px;
+  white-space: nowrap;
+  margin-bottom: 10px;
+  display: none;
+}
+
+@media screen and (min-width: 550px) {
+  #nameCompany {
+    display: block;
+  }
+}
+
+.tab-area .tab-header {
+  margin-bottom: 0;
+  border-bottom: 0px solid transparent;
+}

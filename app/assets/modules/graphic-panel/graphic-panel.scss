@@ -1,0 +1,86 @@
+.graphic-panel__wrapper {
+  width: 100%;
+  padding: 3px;
+}
+.graphic-panel {
+  height               : 34px;
+  background-color     : white;
+  border               : 1px solid #ccc;
+  border-radius        : 2px;
+  padding              : 3px;
+  display              : flex;
+  &__list {
+    display            : flex;
+    justify-content    : flex-start;
+    align-items        : center;
+    margin-right       : 4px;
+    padding-right      : 1px;
+    border-right       : 1px solid #aaa;
+    &:nth-of-type(2),
+    &:last-of-type {
+      border           : none;
+    }
+    &:nth-of-type(3),
+    &:nth-of-type(4),
+    &:nth-of-type(5),
+    &:nth-of-type(6),
+    &:nth-of-type(7),
+    &:nth-of-type(8),
+    &:nth-of-type(9),
+    &:nth-of-type(10) {
+      display          : none;
+    }
+    @media screen and (min-width: 930px) {
+      &:nth-of-type(3),
+      &:nth-of-type(4),
+      &:nth-of-type(5),
+      &:nth-of-type(6),
+      &:nth-of-type(7),
+      &:nth-of-type(8),
+      &:nth-of-type(9),
+      &:nth-of-type(10) {
+        display        : flex;
+      }
+      &:nth-of-type(2) {
+        border-right   : 1px solid #aaa;
+      }
+
+    }
+  }
+  &__btn {
+    height             : 26px;
+    width              : 26px;
+    margin-right       : 3px;
+    display            : flex;
+    cursor             : pointer;
+    text-align         : center;
+    border             : 1px solid transparent;
+    &_active,
+    &:hover {
+      border-color     : #aaa;
+      background-color : #eee;
+    }
+    &[data-annotation-type="fullScreenModeOff"] {
+      display          : none;
+    }
+  }
+  img {
+    height             : 22px;
+    width              : 22px;
+    margin             : auto;
+  }
+  &__time-btn {
+    display            : block;
+    padding-top        : 6px;
+  }
+  &__list:nth-of-type(5),
+  &__list:nth-of-type(6),
+  &__list:nth-of-type(7),
+  &__list:nth-of-type(8) {
+    .graphic-panel__btn {
+      display          : block;
+      padding-top      : 3px;
+      font-size        : 14px;
+    }
+  }
+}

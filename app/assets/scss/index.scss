@@ -1,69 +1,55 @@
-@import "fonts";
 @import "reset";
+@import "fonts";
 @import "style_general";
 // @import "index/index_768+";
 
-body {
-  position: relative;
+html {
+  font                 : 12px tr;
 }
 
-.graphic-container {border: 2px solid maroon;
+body {
+  width                : 100vw;
+  height               : 100vh;
+  overflow             : hidden;
   position             : relative;
-  width                : 100%;
-  width                : 800px;
-  height               : 500px;
-  margin               : 50px auto 0;
+  background-color     : #f0f0f0;
+}
+
+#content-container {
+  height               : calc( 100vh - 50px - 30px - 40px );
   display              : flex;
   flex-direction       : column;
+  padding              : 3px;
+  padding-top          : 0px;
 }
-
-.graphic {border: 2px solid dodgerblue;
-  width                : 100%;
-  order                : 2;
+#main-area {
   flex-grow            : 1;
-
-  &__btns-wrapper {
-    display            : flex;
-    justify-content    : flex-start;
-    align-items        : center;
-    flex-wrap          : wrap;
-    order              : 1;
-  }
-  &__list {
-    margin-right       : 6px;
-    margin-bottom      : 6px;
-    height             : 30px;
-    display            : flex;
-    justify-content    : flex-start;
-    align-items        : center;
-  }
-  &__btn {
-    background-color   : #cacaca;
-    font               : 16px gost;
-    text-align         : center;
-    height             : 30px;
-    width              : 30px;
-    padding            : 5px;
-    color              : #555555;
-    cursor             : pointer;
-    transition         : color .3s, background-color .3s;
-    margin-right       : 1px;
-    img {
-      width            : 20px;
-      height           : 20px;
-    }
-    &:hover {
-      color            : white;
-      background-color : #888;
-    }
-    &_active {
-      color            : white;
-      background-color : #555555;
-    }
-  }
-  &__time-btn {
-    width              : 50px;
-    white-space        : nowrap;
-    padding            : 7px 0 0 0;
-  }
+  display              : flex;
+  padding-bottom       : 3px;
+  max-height           : 100%; //calc(100% - 250px);
 }
+#aside-wrapper {
+  display              : none; //block;
+  width                : 300px;
+  margin-right         : 3px;
+}
+#content-wrapper {
+  flex-grow            : 1;
+}
+#info-area-wrapper {
+  display              : none; //block;
+  height               : 250px;
+}
+
+//modules
+@import "../modules/aside/aside.scss";
+@import "../modules/buy-sell-btns/buy-sell-btns.scss";
+@import "../modules/content/content.scss";
+@import "../modules/graphic-panel/graphic-panel.scss";
+@import "../modules/header/header.scss";
+@import "../modules/info-area/info-area.scss";
+@import "../modules/info-tape/info-tape.scss";
+@import "../modules/nav/nav.scss";
+@import "../modules/popups/popups.scss";
+@import "../modules/scrollTable-fixHeader/scrollTable-fixHeader.scss";
+@import "../modules/tabs/tabs.scss";

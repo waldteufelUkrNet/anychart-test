@@ -1,0 +1,196 @@
+#aside {
+  position               : relative;
+  max-height             : 100%;
+  overflow-y             : hidden;
+}
+#aside-header {
+  height                 : 22px;
+  line-height            : 22px;
+  background-color       : #bfcddb;
+  padding-left           : 3px;
+  margin-bottom          : 3px;
+}
+#aside-close-btn {
+  height                 : 22px;
+  width                  : 22px;
+  position               : absolute;
+  top                    : 0;
+  right                  : 0;
+  text-align             : center;
+  margin                 : 0;
+  padding                : 0;
+  cursor                 : pointer;
+}
+
+// перша вкладка
+.active-pair-wrapper {
+  height                 : 100%;
+  width                  : 100%;
+  padding                : 3px;
+}
+.active-pair {
+  display                : flex;
+  justify-content        : space-between;
+  align-items            : center;
+  margin                 : 5px 0 20px;
+  &__name {
+    font-family          : tb;
+  }
+  &__asc,
+  &__bid {
+    display              : flex;
+    span {
+      margin-right       : 10px;
+    }
+  }
+}
+
+.order-placing {
+  &__header {
+    margin-bottom        : 10px;
+    padding-bottom       : 5px;
+    border-bottom        : 1px solid lightgrey;
+  }
+  &__input-item {
+    display              : flex;
+    justify-content      : space-between;
+    align-items          : center;
+  }
+  &__input-description {
+    padding-bottom       : 5px;
+  }
+
+  &__input-wrapper {
+    border               : 1px solid transparent;
+    margin-top           : 5px;
+    position             : relative;
+    width                : 60%;
+  }
+  &__input {
+    display              : block;
+    width                : calc(100% - 21px);
+    margin               : 0;
+    height               : 30px;
+    border               : 1px solid #aaa;
+    padding-left         : 3px;
+  }
+  &__input-button {
+    width                : 20px;
+    height               : 14.5px;
+    outline              : none;
+    padding              : 0;
+    margin               : 0;
+    position             : absolute;
+    right                : 0px;
+    display              : flex;
+    cursor               : pointer;
+    border               : 1px solid #aaa;
+    background-color     : #ddd;
+    &:first-of-type {
+      top                : 0;
+    }
+    &:last-of-type {
+      bottom             : 0;
+    }
+    svg {
+      height             : 12px;
+      margin             : auto;
+    }
+  }
+
+  &__item {
+    display              : flex;
+    justify-content      : space-between;
+    align-items          : center;
+    padding              : 5px 0;
+    border-bottom        : 1px solid lightgrey;
+  }
+
+  &__buttons-wrapper {
+    margin-top           : 5px;
+    display              : flex;
+    justify-content      : space-evenly;
+    align-items          : center;
+  }
+  #aside-buy-btn {
+    border               : 1px solid transparent;
+    border-radius        : 4px;
+    padding              : 7px 30px;
+    text-transform       : uppercase;
+    text-align           : center;
+    color                : white;
+    background-color     : #62cb31;
+    &>div:first-of-type {
+      margin-bottom      : 10px;
+      font-family        : tb;
+      letter-spacing     : 1px;
+    }
+  }
+  #aside-sell-btn {
+    border               : 1px solid transparent;
+    border-radius        : 4px;
+    padding              : 7px 30px;
+    text-transform       : uppercase;
+    text-align           : center;
+    color                : white;
+    background-color     : #ff0000;
+    &>div:first-of-type {
+      margin-bottom      : 10px;
+      font-family        : tb;
+      letter-spacing     : 1px;
+    }
+  }
+}
+
+// друга вкладка
+.pairs-table-wrapper {
+  position               : absolute;
+  width                  : calc( 100% - 2px );
+  height                 : calc( 100% - 12px );
+  overflow               : auto;
+}
+
+.pairs-table {
+  white-space            : nowrap;
+  border-collapse        : collapse;
+  width                  : 100%;
+  th, td {
+    border               : 1px solid #eee;
+    padding              : 4px;
+    text-align           : center;
+  }
+  thead {
+    height               : 22px;
+    tr {
+      background-color   : #fff;
+      position           : relative;
+      z-index            : 2;
+    }
+    tr > th:nth-of-type(1) {
+      text-align         : left;
+      padding-left       : 26px;
+    }
+    tr > th:nth-of-type(2),
+    tr > th:nth-of-type(3) {
+      text-align         : right;
+    }
+  }
+  tbody {
+    max-height           : 185px;
+    width                : 100%;
+    margin-top           : 0px;
+    overflow-y           : scroll;
+    tr > td:first-of-type {
+      width              : 22px;
+      border-right-color : transparent;
+    }
+    tr > td:nth-of-type(2) {
+      text-align         : left;
+      cursor             : pointer;
+    }
+    tr > td:nth-of-type(3),
+    tr > td:nth-of-type(4) {
+      text-align         : right;
+    }
+  }
+}

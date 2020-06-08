@@ -1,0 +1,208 @@
+.header {
+  background-color              : #222b33;
+  height                        : 50px;
+
+  .header-inner {
+    max-width                   : 1920px;
+    margin                      : 0 auto;
+    display                     : flex;
+    justify-content             : space-between;
+    align-items                 : center;
+    padding                     : 0 10px;
+
+    .logo {
+      height                    : 50px;
+      margin-right              : auto;
+      display                   : flex;
+      img:first-of-type {
+        margin-right            : 6px;
+      }
+      img:last-of-type {
+        display                 : none;
+        @media screen and (min-width: 520px) {
+          display               : block;
+        }
+      }
+    }
+
+    .timer {
+      margin-right              : 10px;
+      color                     : white;
+      display                   : flex;
+    }
+
+    .user-panel {
+      display                   : flex;
+      align-items               : center;
+
+      #chat {
+        display                 : none;
+        width                   : 30px;
+        height                  : 30px;
+        background-color        : transparent;
+        border                  : 1px solid transparent;
+        padding                 : 0;
+        margin-right            : 10px;
+        cursor                  : pointer;
+        @media screen and (min-width: 520px) {
+          display               : block;
+        }
+        img {
+          width                 : 25px;
+          height                : 25px;
+        }
+      }
+
+      .user-menu-wrapper {
+        cursor                  : pointer;
+        position                : relative;
+        z-index                 : 2;
+        margin-right            : 10px;
+
+        &:hover {
+          .user-menu {
+            display             : block;
+          }
+        }
+
+        .user-menu-short {
+          height                : 100%;
+          display               : flex;
+          align-items           : center;
+          color                 : white;
+          text-transform        : uppercase;
+          font-size             : 1.2em;
+
+          img {
+            margin-right        : 6px;
+          }
+        }
+
+        .user-menu {
+          display               : none;
+          position              : absolute;
+          z-index               : 2;
+          top                   : 100%;
+          left                  : 0;
+          min-width             : 100%;
+          background-color      : #222b33;
+          color                 : white;
+          padding               : 6px;
+
+          li {
+            a {
+              display           : flex;
+              align-items       : center;
+              color             : white;
+              white-space       : nowrap;
+              height            : 30px;
+              font-size         : 1.2em;
+
+              img {
+                height          : 20px;
+                width           : 20px;
+                margin-right    : 6px;
+              }
+
+              &:hover {
+                text-decoration : none;
+                color           : #f3c239;
+              }
+            }
+          }
+        }
+      }
+
+      .language-wrapper {
+
+        position                : relative;
+        z-index                 : 9999;
+        @media screen and (min-width: 520px) {
+          min-width             : 72px;
+          margin-right          : 10px;
+        }
+        &:hover {
+          #language-list {
+            display             : block;
+          }
+        }
+        #language-active {
+          height                : 100%;
+          display               : flex;
+          align-items           : center;
+          color                 : white;
+          cursor                : pointer;
+          img {
+            height              : 15px;
+            width               : auto;
+            margin-right        : 6px;
+          }
+          span {
+            border-bottom       : 1px dotted white;
+            margin-top          : -2px;
+            display             : none;
+            @media screen and (min-width: 520px) {
+              display           : block;
+            }
+          }
+        }
+        #language-list {
+          display               : none;
+          background-color      : #222b33;
+          color                 : white;
+          position              : absolute;
+          left                  : -3px;
+          top                   : 100%;
+          padding               : 4px;
+          @media screen and (min-width: 520px) {
+            padding             : 6px;
+            left                : -6px;
+          }
+          li {
+            display             : flex;
+            align-items         : center;
+            height              : 30px;
+            cursor              : pointer;
+            @media screen and (min-width: 520px) {
+              min-width         : 76px;
+            }
+          }
+          img {
+            height              : 15px;
+            width               : auto;
+            margin-right        : 1px;
+            @media screen and (min-width: 520px) {
+              margin-right      : 6px;
+            }
+          }
+          span {
+            border-bottom       : 1px dotted white;
+            margin-top          : -3px;
+            display             : none;
+            @media screen and (min-width: 520px) {
+              display           : block;
+            }
+            &:hover {
+              color             : #f3c239;
+              border-bottom     : 1px solid #f3c239;
+            }
+          }
+        }
+      }
+
+      #make-deposit {
+        background-color        : red;
+        margin                  : 0;
+        margin-right            : -10px;
+        border                  : none;
+        cursor                  : pointer;
+        height                  : 50px;
+        width                   : 90px;
+        color                   : white;
+        text-transform          : uppercase;
+        font-family             : tb;
+        letter-spacing          : 1px;
+      }
+    }
+  }
+}

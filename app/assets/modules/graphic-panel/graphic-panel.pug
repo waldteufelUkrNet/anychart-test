@@ -1,0 +1,87 @@
+// ↓↓↓ modules: graphic-panel (start) ↓↓↓
+
+//- style
+  include graphic-panel.css
+
+.graphic-panel__wrapper
+  .graphic-panel
+    ul.graphic-panel__list
+      li.graphic-panel__btn.graphic-panel__type-btn(data-graphic-type='areaspline' title="тип графика: линия")
+        img(src="assets/img/chart-line.png", alt="chart-line.png")
+      li.graphic-panel__btn.graphic-panel__type-btn.graphic-panel__btn_active(data-graphic-type='candlestick' title="тип графика: японские свечи")
+        img(src="assets/img/chart-candle.png", alt="chart-candle.png")
+      li.graphic-panel__btn.graphic-panel__type-btn(data-graphic-type='ohlc' title="тип графика: бары (OHLC)")
+        img(src="assets/img/chart-bars.png", alt="chart-bars.png")
+
+    ul.graphic-panel__list
+      li.graphic-panel__btn.graphic-panel__time-btn(data-graphic-time='1Ms' title='цена деления: 1 минута') M1
+      li.graphic-panel__btn.graphic-panel__time-btn(data-graphic-time='5Ms' title='цена деления: 5 минут') M5
+      li.graphic-panel__btn.graphic-panel__time-btn.graphic-panel__btn_active(data-graphic-time='15Ms' title='цена деления: 15 минут') M15
+      li.graphic-panel__btn.graphic-panel__time-btn(data-graphic-time='30Ms' title='цена деления: 30 минут') M30
+      li.graphic-panel__btn.graphic-panel__time-btn(data-graphic-time='1H' title='цена деления: 1 час') H1
+      li.graphic-panel__btn.graphic-panel__time-btn(data-graphic-time='1D' title='цена деления: 1 день') D1
+      //- li.graphic-panel__btn.graphic-panel__time-btn(data-graphic-time='1W' title='цена деления: 1 неделя') W1
+      //- li.graphic-panel__btn.graphic-panel__time-btn(data-graphic-time='1M' title='цена деления: 1 месяц') MN
+
+    ul.graphic-panel__list
+      li.graphic-panel__btn.graphic-panel__crosshair-btn.graphic-panel__btn_active(data-graphic-crosshair="sticky" title="перекрестье на графике: привязанное")
+        img(src="assets/img/crosshair-sticky.png", alt="crosshair-sticky")
+      li.graphic-panel__btn.graphic-panel__crosshair-btn(data-graphic-crosshair="float" title="перекрестье на графике: свободное")
+        img(src="assets/img/crosshair-float.png", alt="crosshair-float")
+      li.graphic-panel__btn.graphic-panel__crosshair-btn(data-graphic-crosshair="disable" title="перекрестье на графике: отсутствует")
+        img(src="assets/img/crosshair-disable.png", alt="crosshair-disable")
+
+    ul.graphic-panel__list
+      li.graphic-panel__btn.graphic-panel__scroller-btn.graphic-panel__btn_active(data-graphic-scroll="off" title="временной скролл: выключен")
+        img(src="assets/img/scroller-disable.png", alt="scroller-disable")
+      li.graphic-panel__btn.graphic-panel__scroller-btn(data-graphic-scroll="on" title="временной скролл: включен")
+        img(src="assets/img/scroller-enable.png", alt="scroller-enable")
+
+    ul.graphic-panel__list
+      li.graphic-panel__btn(data-annotation-type="line" title="рисование: отрезок")
+        i.ac.ac-line
+      li.graphic-panel__btn(data-annotation-type="horizontal-line" title="рисование: горизонтальная линия")
+        i.ac.ac-horizontal-line
+      li.graphic-panel__btn(data-annotation-type="vertical-line" title="рисование: вертикальная линия")
+        i.ac.ac-vertical-line
+      li.graphic-panel__btn(data-annotation-type="infinite-line" title="рисование: свободная линия")
+        i.ac.ac-infinite-line
+      li.graphic-panel__btn(data-annotation-type="ray" title="рисование: луч")
+        i.ac.ac-ray
+
+    ul.graphic-panel__list
+      li.graphic-panel__btn(data-annotation-type="triangle" title="рисование: треугольник")
+        i.ac.ac-triangle
+      li.graphic-panel__btn(data-annotation-type="rectangle" title="рисование: четырехугольник")
+        i.ac.ac-rectangle
+      li.graphic-panel__btn(data-annotation-type="ellipse" title="рисование: еллипс")
+        i.ac.ac-ellipse
+
+    ul.graphic-panel__list
+      li.graphic-panel__btn(data-annotation-type="trend-channel" title="рисование: Trend Channel")
+        i.ac.ac-trend-channel
+      li.graphic-panel__btn(data-annotation-type="andrews-pitchfork" title="рисование: Andrew's Pitchfork")
+        i.ac.ac-andrews-pitchfork
+
+    ul.graphic-panel__list
+      li.graphic-panel__btn(data-annotation-type="fibonacci-fan" title="рисование: Fibonacci Fan")
+        i.ac.ac-fibonacci-fan
+      li.graphic-panel__btn(data-annotation-type="fibonacci-arc" title="рисование: Fibonacci Arc")
+        i.ac.ac-fibonacci-arc
+      li.graphic-panel__btn(data-annotation-type="fibonacci-retracement" title="рисование: Fibonacci Retracement")
+        i.ac.ac-fibonacci-retracement
+      li.graphic-panel__btn(data-annotation-type="fibonacci-timezones" title="рисование: Fibonacci Time Zones")
+        i.ac.ac-fibonacci-timezones
+
+    ul.graphic-panel__list
+      li.graphic-panel__btn(data-annotation-type="removeAllAnnotations" title="рисование: удалить все")
+        img(src="assets/img/cleaner.png", alt="cleaner")
+
+    ul.graphic-panel__list
+      li.graphic-panel__btn(data-annotation-type="fullScreenModeOn" data-fullscreen title="полноэкранный режим")
+        img(src="assets/img/fullScreenModeOn.png", alt="fullScreenModeOn")
+
+//- script
+  include ../minjs/graphic-panel/graphic-panel.js
+
+// ↑↑↑ modules: graphic-panel (end) ↑↑↑

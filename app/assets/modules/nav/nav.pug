@@ -1,0 +1,219 @@
+// ↓↓↓ modules: navigation (start) ↓↓↓
+
+//- style
+  include nav.css
+
+nav.navigation
+  ul.navigation-list
+    li.navigation-list__item Меню
+      ul.submenu-list
+        //- li.submenu-item.submenu-item_with-children Новый график
+          ul.submenu-list
+            li.submenu-item.submenu-item_with-children Валюта
+              ul.submenu-list
+                li.submenu-item BTCETH
+                li.submenu-item USDEUR
+                li.submenu-item RUBGBP
+            li.submenu-item.submenu-item_with-children Криптовалюта
+              ul.submenu-list
+                li.submenu-item BTCETH
+                li.submenu-item USDEUR
+                li.submenu-item RUBGBP
+            li.submenu-item.submenu-item_with-children Товары
+              ul.submenu-list
+                li.submenu-item BTCETH
+                li.submenu-item USDEUR
+                li.submenu-item RUBGBP
+            li.submenu-item.submenu-item_with-children Акции
+              ul.submenu-list
+                li.submenu-item BTCETH
+                li.submenu-item USDEUR
+                li.submenu-item RUBGBP
+            li.submenu-item.submenu-item_with-children Индексы
+              ul.submenu-list
+                li.submenu-item BTCETH
+                li.submenu-item USDEUR
+                li.submenu-item RUBGBP
+        li.submenu-item(onclick='openPopup(".popup-write-message")') Написать сообщение
+        li.submenu-item(onclick='openPopup(".popup-change-pass")') Изменить пароль
+        li.submenu-item.submenu-item_divider
+        li.submenu-item Выход
+    li.navigation-list__item Вид
+      ul.submenu-list
+        li.submenu-item.submenu-item_with-children Languages
+          ul.submenu-list
+            li.submenu-item.submenu-item_checked(data-lang='ru') русский
+            li.submenu-item(data-lang='en') english
+        li.submenu-item.submenu-item_with-img.submenu-item_with-img_active(data-toggle-aside)
+          .submenu-item-img-wrapper
+            img(src="assets/img/aside-panel.jpg", alt="")
+          span Обзор рынка
+        li.submenu-item.submenu-item_with-img.submenu-item_with-img_active(data-toggle-footer)
+          .submenu-item-img-wrapper
+            img(src="assets/img/footer-panel.jpg", alt="")
+          span Инструменты
+        li.submenu-item.submenu-item_divider
+        li.submenu-item.submenu-item_with-img(data-fullscreen)
+          .submenu-item-img-wrapper
+            img(src="assets/img/fullScreenModeOn.png", alt="")
+          span Полный экран
+    li.navigation-list__item Вставка
+      ul.submenu-list
+        li.submenu-item.submenu-item_with-children линии
+          ul.submenu-list
+            li.submenu-item.submenu-item_with-img(data-annotation-type="line")
+              .submenu-item-img-wrapper
+                i.ac.ac-line
+              span отрезок
+            li.submenu-item.submenu-item_with-img(data-annotation-type="horizontal-line")
+              .submenu-item-img-wrapper
+                i.ac.ac-horizontal-line
+              span горизонтальная линия
+            li.submenu-item.submenu-item_with-img(data-annotation-type="vertical-line")
+              .submenu-item-img-wrapper
+                i.ac.ac-vertical-line
+              span вертикальная линия
+            li.submenu-item.submenu-item_with-img(data-annotation-type="infinite-line")
+              .submenu-item-img-wrapper
+                i.ac.ac-infinite-line
+              span свободная линия
+            li.submenu-item.submenu-item_with-img(data-annotation-type="ray")
+              .submenu-item-img-wrapper
+                i.ac.ac-ray
+              span луч
+        li.submenu-item.submenu-item_with-children фигуры
+          ul.submenu-list
+            li.submenu-item.submenu-item_with-img(data-annotation-type="triangle")
+              .submenu-item-img-wrapper
+                i.ac.ac-triangle
+              span треугольник
+            li.submenu-item.submenu-item_with-img(data-annotation-type="rectangle")
+              .submenu-item-img-wrapper
+                i.ac.ac-rectangle
+              span четырехугольник
+            li.submenu-item.submenu-item_with-img(data-annotation-type="ellipse")
+              .submenu-item-img-wrapper
+                i.ac.ac-ellipse
+              span эллипс
+        li.submenu-item.submenu-item_with-children каналы
+          ul.submenu-list
+            li.submenu-item.submenu-item_with-img(data-annotation-type="trend-channel")
+              .submenu-item-img-wrapper
+                i.ac.ac-trend-channel
+              span Trend Channel
+            li.submenu-item.submenu-item_with-img(data-annotation-type="andrews-pitchfork")
+              .submenu-item-img-wrapper
+                i.ac.ac-andrews-pitchfork
+              span Andrew's Pitchfork
+        li.submenu-item.submenu-item_with-children Фибоначчи
+          ul.submenu-list
+            li.submenu-item.submenu-item_with-img(data-annotation-type="fibonacci-fan")
+              .submenu-item-img-wrapper
+                i.ac.ac-fibonacci-fan
+              span Fibonacci Fan
+            li.submenu-item.submenu-item_with-img(data-annotation-type="fibonacci-arc")
+              .submenu-item-img-wrapper
+                i.ac.ac-fibonacci-arc
+              span Fibonacci Arc
+            li.submenu-item.submenu-item_with-img(data-annotation-type="fibonacci-retracement")
+              .submenu-item-img-wrapper
+                i.ac.ac-fibonacci-retracement
+              span Fibonacci Retracement
+            li.submenu-item.submenu-item_with-img(data-annotation-type="fibonacci-timezones")
+              .submenu-item-img-wrapper
+                i.ac.ac-fibonacci-timezones
+              span Fibonacci Time Zones
+        li.submenu-item.submenu-item_divider
+        li.submenu-item.submenu-item_with-img(data-annotation-type="removeAllAnnotations")
+          .submenu-item-img-wrapper
+            img(src="assets/img/cleaner.png", alt="")
+          span Очистить график
+    li.navigation-list__item Графики
+      ul.submenu-list
+        li.submenu-item.submenu-item_with-img.submenu-item_with-img_active(data-graphic-type='areaspline')
+          .submenu-item-img-wrapper
+            img(src="assets/img/chart-line.png", alt="")
+          span Линии
+        li.submenu-item.submenu-item_with-img(data-graphic-type='candlestick')
+          .submenu-item-img-wrapper
+            img(src="assets/img/chart-candle.png", alt="")
+          span Японские свечи
+        li.submenu-item.submenu-item_with-img(data-graphic-type='ohlc')
+          .submenu-item-img-wrapper
+            img(src="assets/img/chart-bars.png", alt="")
+          span Бары
+        li.submenu-item.submenu-item_divider
+        li.submenu-item.submenu-item_with-children Период графика
+          ul.submenu-list
+            li.submenu-item.submenu-item_with-img.submenu-item_with-img_active(data-graphic-time='1Ms')
+              .submenu-item-img-wrapper
+                i M1
+              span 1 минута
+            li.submenu-item.submenu-item_with-img(data-graphic-time='5Ms')
+              .submenu-item-img-wrapper
+                i M5
+              span 5 минут
+            li.submenu-item.submenu-item_with-img(data-graphic-time='15Ms')
+              .submenu-item-img-wrapper
+                i M15
+              span 15 минут
+            li.submenu-item.submenu-item_with-img(data-graphic-time='30Ms')
+              .submenu-item-img-wrapper
+                i M30
+              span 30 минут
+            li.submenu-item.submenu-item_divider
+            li.submenu-item.submenu-item_with-img(data-graphic-time='1H')
+              .submenu-item-img-wrapper
+                i H1
+              span 1 час
+            li.submenu-item.submenu-item_divider
+            li.submenu-item.submenu-item_with-img(data-graphic-time='1D')
+              .submenu-item-img-wrapper
+                i D1
+              span 1 день
+            //- li.submenu-item.submenu-item_divider
+            //- li.submenu-item.submenu-item_with-img(data-graphic-time='1W')
+            //-   .submenu-item-img-wrapper
+            //-     i W1
+            //-   span 1 неделя
+            //- li.submenu-item.submenu-item_divider
+            //- li.submenu-item.submenu-item_with-img(data-graphic-time='1M')
+            //-   .submenu-item-img-wrapper
+            //-     i MN
+            //-   span 1 месяц
+        li.submenu-item.submenu-item_with-children Скролл
+          ul.submenu-list
+            li.submenu-item.submenu-item_with-img(data-graphic-scroll="on")
+              .submenu-item-img-wrapper
+                img(src="assets/img/scroller-enable.png", alt="")
+              span присутствует
+            li.submenu-item.submenu-item_with-img.submenu-item_with-img_active(data-graphic-scroll="off")
+              .submenu-item-img-wrapper
+                img(src="assets/img/scroller-disable.png", alt="")
+              span отсутствует
+        li.submenu-item.submenu-item_with-children Тип курсора
+          ul.submenu-list
+            li.submenu-item.submenu-item_with-img.submenu-item_with-img_active(data-graphic-crosshair="sticky")
+              .submenu-item-img-wrapper
+                img(src="assets/img/crosshair-sticky.png", alt="")
+              span привязанный
+            li.submenu-item.submenu-item_with-img(data-graphic-crosshair="float")
+              .submenu-item-img-wrapper
+                img(src="assets/img/crosshair-float.png", alt="")
+              span свободный
+            li.submenu-item.submenu-item_with-img(data-graphic-crosshair="disable")
+              .submenu-item-img-wrapper
+                img(src="assets/img/crosshair-disable.png", alt="")
+              span отсутствует
+    //- li.navigation-list__item Настройки
+    //-   ul.submenu-list
+    //-     li.submenu-item.submenu-item_with-children Цветовая схема
+    //-       ul.submenu-list
+    //-         li.submenu-item светлая
+    //-         li.submenu-item темная
+    //- li.navigation-list__item Справка
+
+//- script
+  include ../minjs/nav/nav.js
+
+// ↑↑↑ modules: navigation (end) ↑↑↑

@@ -1,0 +1,113 @@
+.navigation {
+  height                 : 30px;
+}
+.navigation-list {
+    display              : flex;
+    justify-content      : flex-start;
+    align-items          : center;
+    height               : 100%;
+    padding              : 3px 0 0 3px;
+  &__item {
+    height               : 100%;
+    cursor               : pointer;
+    padding              : 7px;
+    position             : relative;
+    &:hover {
+      background-color   : rgba(135, 206, 250, .5);
+    }
+    & > .submenu-list {
+      left               : 0;
+      top                : 100%;
+    }
+    &:nth-last-of-type(1),
+    &:nth-last-of-type(2) {
+      display            : none;
+      @media screen and (min-width: 930px) {
+        display          : block;
+      }
+    }
+  }
+}
+.submenu-list {
+  display                : none;
+  position               : absolute;
+  left                   : 100%;
+  top                    : 0;
+  z-index                : 3;
+  border                 : 1px solid #ccc;
+  background-color       : #eee;
+  box-shadow             : 1px 1px 3px #aaa;
+  &_active {
+    display              : block; 
+  }
+}
+
+.submenu-item {
+  height                 : 22px;
+  line-height            : 20px;
+  margin                 : 3px;
+  padding                : 0 30px;
+  white-space            : nowrap;
+  position               : relative;
+  &:hover {
+    background-color     : rgba(135, 206, 250, .5);
+    & > .submenu-list {
+      display            : block;
+    }
+  }
+  &_divider {
+    height               : 1px;
+    border-top           : 1px solid #ccc;
+  }
+  &_with-children {
+    &::after {
+      display            : block;
+      content            : '';
+      border-left        : 4px solid black;
+      border-top         : 4px solid transparent;
+      border-bottom      : 4px solid transparent;
+      position           : absolute;
+      right              : 8px;
+      top                : 7px;
+    }
+  }
+  &_with-img {
+    display              : flex;
+    align-items          : center;
+    justify-content      : flex-start;
+    padding-left         : 0px;
+    .submenu-item-img-wrapper {
+      width              : 22px;
+      height             : 22px;
+      margin-right       : 6px;
+      display            : flex;
+      border             : 1px solid transparent;
+      display            : flex;
+      img {
+        width            : 18px;
+        height           : 18px;
+        margin           : auto;
+      }
+      i {
+        margin           : auto;
+      }
+    }
+    &_active {
+      .submenu-item-img-wrapper {
+        border           : 1px solid #aaa;
+        background-color : #eee;
+      }
+    }
+  }
+  &_checked {
+    &::before {
+      display            : block;
+      content            : '☑';
+      font-size          : 18px;
+      position           : absolute;
+      top                : 50%;
+      left               : 6px;
+      transform          : translate(0,-50%);
+    }
+  }
+}

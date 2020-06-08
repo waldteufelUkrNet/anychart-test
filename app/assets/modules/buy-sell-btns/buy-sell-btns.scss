@@ -1,0 +1,87 @@
+.buy-sell-btns {
+  height               : 60px;
+  width                : 220px;
+  position             : absolute;
+  z-index              : 1;
+  left                 : 13px;
+  top                  : 38px;
+  background-color     : transparent;
+  display              : flex;
+  justify-content      : space-between;
+  &__input-wrapper {
+    height             : 27px;
+    width              : 120px;
+    padding            : 0 3px 3px;
+    background-color   : #fff;
+    position           : absolute;
+    top                : 0;
+    left               : 50%;
+    transform          : translate(-50%);
+    display            : flex;
+    justify-content    : space-between;
+    align-items        : flex-start;
+  }
+  &__couter {
+    height             : 24px;
+    width              : 24px;
+    margin             : 0;
+    padding            : 0;
+    display            : flex;
+    border             : 1px solid #aaa;
+    background-color   : #ddd;
+    cursor             : pointer;
+    svg {
+      height           : 16px;
+      width            : auto;
+      margin           : auto;
+    }
+  }
+  &__input {
+    height             : 24px;
+    width              : 50px;
+    flex-grow          : 1;
+    margin             : 0;
+    text-align         : right;
+    padding            : 0 3px;
+    border: {
+      top              : 1px solid #aaa;
+      bottom           : 1px solid #aaa;
+      left             : none;
+      right            : none;
+    };
+  }
+  &__btn {
+    flex-grow          : 1;
+    color              : white;
+    padding            : 6px;
+    cursor             : pointer;
+    display            : flex;
+    flex-direction     : column;
+    justify-content    : space-between;
+    &_blue {
+      background-color : #0A31C1;
+    }
+    &_red {
+      background-color : #ff2900;
+    }
+    &:nth-of-type(2) {
+      margin-right     : 3px;
+    }
+    &:nth-of-type(3) {
+      align-items      : flex-end;
+    }
+  }
+  &__name {
+    letter-spacing     : 2px;
+    font-family        : tb;
+  }
+  &__divider {
+    height             : 2px;
+    width              : 38px;
+    border-top         : 1px solid black;
+    border-bottom      : 1px solid lightgrey;
+  }
+  &__value {
+    font-size          : 1.2em;
+  }
+}

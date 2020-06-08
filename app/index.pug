@@ -3,102 +3,69 @@ html(lang='ru')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(name='description' content="Торгуй по-своему: валютные пары, акции, индексы, товары и криптовалюта.")
+    meta(name='description' content="???")
 
-    title Главная страница
-    //- link(rel='icon', href='assets/img/logo.png')
+    title TITLE
+    link(rel='icon', href='assets/img/bittrex-logo-mark.svg')
 
-    // css-libs
-    link(rel='stylesheet', type='text/css', href='assets/libs-css/anychart-font.min.css')
-
-    // own stylesheet
-    link(rel='stylesheet', type='text/css', href='assets/css/index.css')
-
-    // jQuery
-    script(src='assets/libs-js/jquery.js')
+    // ↓↓↓ VERSION CONTROL SYSTEM ↓↓↓
+    script.
+      // js із версіями файлів js/css щоразу завантажується новий
+      document.write('\
+        <script src="assets/js/version-control.js?version=' + Date.now() + '"><\/script>\
+      ');
+    script.
+      // ці файли завантажуються з кешу, або (якщо були зміни) - з нету
+      document.write('\
+        <!-- css-libs -->\
+        <link rel="stylesheet" type="text/css" href="assets/libs-css/anychart-font.min.css?version=' + v.anychartFontMinCss + '">\
+        <!-- own stylesheet -->\
+        <link rel="stylesheet" type="text/css" href="assets/css/index.css?version=' + v.indexCss + '">\
+        <link rel="stylesheet" type="text/css" href="assets/css/safari-fix.css?version=' + v.safariFixCss + '">\
+      ');
+    // ↑↑↑ /VERSION CONTROL SYSTEM ↑↑↑
   body
 
-    .graphic-container
-      #graphic.graphic
-      .graphic__btns-wrapper
-        ul.graphic__list
-          li.graphic__btn.graphic__type-btn.graphic__btn_active(data-type='areaspline' title="тип графика: линия")
-            img(src="assets/img/chart-line.png", alt="chart-line.png")
-          li.graphic__btn.graphic__type-btn(data-type='candlestick' title="тип графика: японские свечи")
-            img(src="assets/img/chart-candle.png", alt="chart-candle.png")
-          li.graphic__btn.graphic__type-btn(data-type='ohlc' title="тип графика: бары (OHLC)")
-            img(src="assets/img/chart-bars.png", alt="chart-bars.png")
+    // POPUPS
+    include assets/modules/popups/popups.pug
+    // /POPUPS
 
-        ul.graphic__list
-          li.graphic__btn.graphic__time-btn.graphic__btn_active(data-time='5' title='цена деления: 5 минут') 5 мин.
-          li.graphic__btn.graphic__time-btn(data-time='10' title='цена деления: 10 минут') 10 мин.
-          li.graphic__btn.graphic__time-btn(data-time='15' title='цена деления: 15 минут') 15 мин.
-          li.graphic__btn.graphic__time-btn(data-time='30' title='цена деления: 30 минут') 30 мин.
-          li.graphic__btn.graphic__time-btn(data-time='45' title='цена деления: 45 минут') 45 мин.
-          li.graphic__btn.graphic__time-btn(data-time='60' title='цена деления: 60 минут') 60 мин.
+    // HEADER
+    include assets/modules/header/header.pug
+    // /HEADER
 
-        ul.graphic__list
-          li.graphic__btn.graphic__crosshair-btn.graphic__btn_active(data-crosshair="sticky" title="перекрестье на графике: привязанное")
-            img(src="assets/img/crosshair-sticky.png", alt="crosshair-sticky")
-          li.graphic__btn.graphic__crosshair-btn(data-crosshair="float" title="перекрестье на графике: свободное")
-            img(src="assets/img/crosshair-float.png", alt="crosshair-float")
-          li.graphic__btn.graphic__crosshair-btn(data-crosshair="disable" title="перекрестье на графике: отсутствует")
-            img(src="assets/img/crosshair-disable.png", alt="crosshair-disable")
+    // MAIN SECTION
+    main.main
+      include assets/modules/nav/nav.pug
+      include assets/modules/graphic-panel/graphic-panel.pug
+      #content-container
+        #main-area
+          #aside-wrapper
+            include assets/modules/aside/aside.pug
+          #content-wrapper
+            include assets/modules/content/content.pug
+        #info-area-wrapper
+          include assets/modules/info-area/info-area.pug
+    // /MAIN SECTION
 
-        ul.graphic__list
-          li.graphic__btn.graphic__scroller-btn.graphic__btn_active(data-scroll="off" title="временной скролл: выключен")
-            img(src="assets/img/scroller-disable.png", alt="scroller-disable")
-          li.graphic__btn.graphic__scroller-btn(data-scroll="on" title="временной скролл: включен")
-            img(src="assets/img/scroller-enable.png", alt="scroller-enable")
+    // FOOTER
+    //- include assets/modules/footer/footer.pug
+    // /FOOTER
 
-        ul.graphic__list
-          li.graphic__btn(data-annotation-type="line" title="рисование: отрезок")
-            i.ac.ac-line
-          li.graphic__btn(data-annotation-type="horizontal-line" title="рисование: горизонтальная линия")
-            i.ac.ac-horizontal-line
-          li.graphic__btn(data-annotation-type="vertical-line" title="рисование: вертикальная линия")
-            i.ac.ac-vertical-line
-          li.graphic__btn(data-annotation-type="infinite-line" title="рисование: свободная линия")
-            i.ac.ac-infinite-line
-          li.graphic__btn(data-annotation-type="ray" title="рисование: луч")
-            i.ac.ac-ray
-
-        ul.graphic__list
-          li.graphic__btn(data-annotation-type="triangle" title="рисование: треугольник")
-            i.ac.ac-triangle
-          li.graphic__btn(data-annotation-type="rectangle" title="рисование: четырехугольник")
-            i.ac.ac-rectangle
-          li.graphic__btn(data-annotation-type="ellipse" title="рисование: еллипс")
-            i.ac.ac-ellipse
-
-        ul.graphic__list
-          li.graphic__btn(data-annotation-type="trend-channel" title="рисование: Trend Channel")
-            i.ac.ac-trend-channel
-          li.graphic__btn(data-annotation-type="andrews-pitchfork" title="рисование: Andrew's Pitchfork")
-            i.ac.ac-andrews-pitchfork
-
-        ul.graphic__list
-          li.graphic__btn(data-annotation-type="fibonacci-fan" title="рисование: Fibonacci Fan")
-            i.ac.ac-fibonacci-fan
-          li.graphic__btn(data-annotation-type="fibonacci-arc" title="рисование: Fibonacci Arc")
-            i.ac.ac-fibonacci-arc
-          li.graphic__btn(data-annotation-type="fibonacci-retracement" title="рисование: Fibonacci Retracement")
-            i.ac.ac-fibonacci-retracement
-          li.graphic__btn(data-annotation-type="fibonacci-timezones" title="рисование: Fibonacci Time Zones")
-            i.ac.ac-fibonacci-timezones
-
-        //- ul.graphic__list
-        //-   li.graphic__btn(data-annotation-type="label" title="рисование: текст")
-        //-     i.ac.ac-font
-
-        ul.graphic__list
-          li.graphic__btn(data-annotation-type="removeAllAnnotations" title="рисование: удалить все")
-            img(src="assets/img/cleaner.png", alt="cleaner")
-
-
-    // scripts
-    script(src='assets/libs-js/anychart-core.min.js')
-    //- script(src='assets/libs-js/anychart-base.min.js')
-    script(src='assets/libs-js/anychart-stock.min.js')
-    script(src='assets/libs-js/anychart-annotations.min.js')
-    script(src='assets/js/anychart.js')
+    // ↓↓↓ VERSION CONTROL SYSTEM ↓↓↓
+    script.
+      // ці файли завантажуються з кешу, або (якщо були зміни) - з нету
+      document.write('\
+        <!-- js-libs -->\
+        <script src="assets/libs-js/anychart-core.min.js?version='        + v.anychartCoreMinJs        + '"><\/script>\
+        <script src="assets/libs-js/anychart-stock.min.js?version='       + v.anychartStockMinJs       + '"><\/script>\
+        <script src="assets/libs-js/anychart-annotations.min.js?version=' + v.anychartAnnotationsMinJs + '"><\/script>\
+        <!-- own js -->\
+        <script src="assets/js/index.js?version='      + v.indexJs      + '"><\/script>\
+        <script src="assets/js/modules.js?version='    + v.modulesJS    + '"><\/script>\
+        <script src="assets/js/safari-fix.js?version=' + v.safariFixJS  + '"><\/script>\
+        <script src="assets/js/anychart.js?version='   + v.anychartJs   + '"><\/script>\
+      ');
+    // ↑↑↑ /VERSION CONTROL SYSTEM ↑↑↑
+    //- script(src='assets/js/form-registration.js')
+    //- script(src='assets/js/popups.js')

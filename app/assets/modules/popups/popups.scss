@@ -1,0 +1,347 @@
+#popups-wrapper {
+  position           : fixed;
+  z-index            : 2000;
+  top                : 0;
+  left               : 0;
+  height             : 100vh;
+  width              : 100vw;
+  cursor             : not-allowed;
+  display            : none;
+}
+
+.popup {
+  display            : none;
+  min-width          : 300px;
+  max-width          : 600px;
+  min-height         : 100px;
+  position           : absolute;
+  left               : 50%;
+  top                : 50%;
+  transform          : translate(-50%, -50%);
+  background-color   : #eee;
+  border             : 5px solid grey;
+  cursor             : default;
+  transition         : top .3s;
+  &__head {
+    height           : 26px;
+    padding          : 5px;
+    position         : relative;
+    background-color : grey;
+    font-size        : 1.2em;
+  }
+  &__close-btn {
+    height           : 20px;
+    width            : 40px;
+    cursor           : pointer;
+    position         : absolute;
+    top              : -5px;
+    right            : 10px;
+    margin           : 0;
+    padding          : 0;
+    border           : none;
+    color            : white;
+    background-color : #F86E67;
+    font-weight      : 900;
+  }
+  &__body {
+    border           : 1px solid #aaa;
+    padding          : 10px;
+    margin           : 10px 10px 0;
+    max-height       : 60vh;
+    overflow-y       : auto;
+  }
+  &__header {
+    text-align       : center;
+    position         : relative;
+    top              : -3px;
+  }
+  &__text {
+    line-height      : 1.2em;
+  }
+  &__author {
+    text-align       : right;
+    padding-right    : 10px;
+  }
+  &__footer {
+    height           : 40px;
+    padding          : 5px;
+    display          : flex;
+    justify-content  : center;
+    align-items      : center;
+  }
+  &__btn {
+    border           : 1px solid #aaa;
+    margin           : 0 4px;
+    height           : 25px;
+    min-width        : 60px;
+    padding          : 0 6px;
+    cursor           : pointer;
+  }
+  &__write-message {}
+  &__write-message-subject {
+    display: block;
+    width: 100%;
+    min-width: calc(300px - 32px);
+    max-width: calc(600px - 32px);
+    margin-bottom: 10px;
+    font   : 14px tr;
+  }
+  &__write-message-text {
+    display: block;
+    width: 100%;
+    min-height: 100px;
+    min-width: calc(300px - 32px);
+    max-width: calc(600px - 32px);
+    font   : 14px tr;
+  }
+  &__change-password {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 6px;
+    align-items: center;
+  }
+  &__label {}
+  &__input-wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    border-right-color: transparent;
+  }
+  &__password {
+    height: 30px;
+    min-width: 120px;
+    border: 1px solid grey;
+    border-right-color: transparent;
+    // font: 16px mpr;
+  }
+  &__show-hide-pass {
+    height: 30px;
+    width: 30px;
+    border: 1px solid grey;
+    background-color: #aaa;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    display: flex;
+    .eye {
+      margin: auto;
+      fill: black;
+      height: 20px;
+      width: auto;
+      &_show {
+        display: none;
+      }
+    }
+  }
+  &__withdrawal-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+    height: 30px;
+  }
+  &__withdrawal-input {
+    padding: 0 6px;
+    border: 1px solid lightgrey;
+  }
+  &__withdrawal-select {
+    border: 1px solid grey;
+    border-left: none;
+  }
+  &__profile-editor-form {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 6px;
+    align-items: center;
+  }
+  &__profile-editor-input {
+    height: 30px;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+    padding: 0 6px;
+    line-height: 30px;
+  }
+  input, textarea {
+    padding: 6px 6px;
+    border: 1px solid grey;
+    border-radius: 0;
+    &::placeholder {
+      font             : 12px tr;
+    }
+  }
+  &__validation-error {
+    color            : red;
+    display          : none;
+    &_active {
+      display        : block;
+    }
+  }
+  &__tab-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  &__tab-header {
+    border: 1px solid grey;
+    padding: 6px;
+    cursor: pointer;
+    transition: background-color .3s, color .3s;
+    position: relative;
+    top: 1px;
+    &_active {
+      background-color: grey;
+      color: white;
+    }
+  }
+  &__forms-wrapper {
+    border: 1px solid grey;
+    padding: 6px 3px;
+  }
+  &__make-deposit-form {
+    display  : none;
+    &_active {
+      display: block;
+    }
+  }
+  &__make-deposit-amount-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    height: 30px;
+    margin-bottom: 10px;
+  }
+  &__make-deposit-amount-input {
+    width        : 207px;
+    border           : 1px solid lightgrey;
+    &::placeholder {
+      padding-top: 10px;
+      opacity: 1;
+    }
+  }
+  &__make-deposit-select {
+    width: 65px;
+    cursor: pointer;
+    border: 1px solid grey;
+    position: relative;
+    left: -1px;
+  }
+  &__make-deposit-checkbox-wrapper {
+    display          : flex;
+    max-width        : 400px;
+    input {
+      width: 20px;
+      height: 20px;
+    }
+    a {
+      color : MediumTurquoise;
+      // font  : 15px ri;
+    }
+  }
+  &__make-deposit-card-wrapper {
+    display          : flex;
+    justify-content  : flex-start;
+    height           : 30px;
+    margin-bottom    : 10px;
+  }
+  &__make-deposit-card-pseudoinput {
+    min-width        : 150px;
+    // border           : 1px solid lightgrey;
+    // font             : 14px rr;
+    padding-top      : 3px;
+  }
+  &__make-deposit-card-pseudoselect {
+    height: 30px;
+    width: 122px;
+    border: 1px solid grey;
+    position: relative;
+    left: -1px;
+    cursor           : pointer;
+    &::after {
+      display: block;
+      content: '';
+      border-top    : 6px solid #537091;
+      border-left   : 3px solid transparent;
+      border-right  : 3px solid transparent;
+      border-bottom : 3px solid transparent;
+      position      : absolute;
+      top           : 10px;
+      right         : 2px;
+    }
+  }
+  &__make-deposit-card-current {
+    height      : 100%;
+    user-select : none;
+  }
+  &__make-deposit-card {
+    display         : flex;
+    justify-content : flex-start;
+    align-items     : center;
+    width           : 120px;
+    padding         : 0 3px;
+    user-select     : none;
+    cursor          : pointer;
+    position        : relative;
+    &:hover {
+      background-color: #eee;
+    }
+    svg {
+      height: 26px;
+      margin-right: 3px;
+      fill: #537091;
+    }
+  }
+  &__make-deposit-cards-wrapper {
+    display: none;
+    position: absolute;
+    z-index:10;
+    left: -1px;
+    border: 1px solid grey;
+    background-color: #fff;
+  }
+  &__make-deposit-card-cover-for-click {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index:10;
+  }
+  &__make-deposit-btn {
+    border           : 1px solid #aaa;
+    margin           : 0 4px;
+    height           : 25px;
+    min-width        : 60px;
+    padding          : 0 6px;
+    cursor           : pointer;
+    display          : none;
+    &_active {
+      display        : block;
+    }
+  }
+  &__set-SL-TP {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 6px;
+    grid-direction: column;
+  }
+}
+
+.popup-verification {
+  &__form {
+    display:  flex;
+    flex-direction: column;
+  }
+  &__label {
+    cursor: pointer;
+    position: relative;
+  }
+  &__input {
+    margin: 2px 0 5px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .popup__validation-error {
+    margin-bottom: 5px;
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+  }
+}

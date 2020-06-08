@@ -1,0 +1,71 @@
+// ↓↓↓ modules: header (start) ↓↓↓
+
+//- style
+  include header.css
+
+header.header
+  .header-inner
+    a(href="https://rt-investing.com/").logo
+      img#imgCompany(src="assets/img/logo.png", alt="")
+      p#nameCompany RT-Investing
+    .timer
+      #hours 00
+      span :
+      #minutes 00
+      span :
+      #secomds 00
+    .user-panel
+      button#chat(title='написать сообщение' onclick='openPopup(".popup-write-message")')
+        img(src="assets/img/user-messages.png", alt="")
+
+      .user-menu-wrapper
+        .user-menu-short
+          //- img#avatar(src="assets/img/avatar.png", alt="")
+          #username user name
+        ul.user-menu
+          li(onclick='openPopup(".popup-write-message")')
+            a(href="#")
+              img(src="assets/img/user-messages.png", alt="menu-item-icon")
+              span Написать брокеру
+          li(onclick='openPopup(".popup-change-pass")')
+            a(href="#")
+              img(src="assets/img/user-account.png", alt="menu-item-icon")
+              span Изменить пароль
+          li(onclick='openPopup(".popup-make-deposit")')
+            a(href="#")
+              img(src="assets/img/user-deposit.png", alt="menu-item-icon")
+              span Пополнить счет
+          li(onclick='openPopup(".popup-withdrawal-confirm")')
+            a(href="#")
+              img(src="assets/img/user-withdrawal.png", alt="menu-item-icon")
+              span Снять со счета
+          li(onclick='openPopup(".popup-profile-editor")')
+            a(href="#")
+              img(src="assets/img/user-settings.png", alt="menu-item-icon")
+              span Редактор профиля
+          li(onclick='openPopup(".popup-verification")')
+            a(href="#")
+              img(src="assets/img/user-verification.png", alt="menu-item-icon")
+              span Верификационные данные
+          li
+            a(href="#")
+              img(src="assets/img/user-logout.png", alt="menu-item-icon")
+              span Выйти
+
+      .language-wrapper
+        #language-active(data-lang='ru')
+          img(src="assets/img/lang-ru.png", alt="lang")
+          span русский
+        ul#language-list
+          li(data-lang='ru')
+            img(src="assets/img/lang-ru.png", alt="lang")
+            span русский
+          li(data-lang='en')
+            img(src="assets/img/lang-en.png", alt="lang")
+            span english
+
+      button#make-deposit(title="сделать депозит" onclick='openPopup(".popup-make-deposit")') Депозит
+//- script
+  include ../minjs/header/header.js
+
+// ↑↑↑ modules: header (end) ↑↑↑

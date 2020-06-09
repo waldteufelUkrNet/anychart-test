@@ -246,51 +246,110 @@ function drawChart() {
   chart.draw(); // стерти водяний знак
 
   document.getElementsByClassName('anychart-credits')[0].remove(); // ↓↓↓ indicators ↓↓↓
-  // sma
-  // chart.plot(0).sma(lineMapping, 10, "line");
-  // -: adl, cmf, cho, dmi, 
-  // ama                        | plot(0) | 1 parameter: value
+  // dont able: adl, cmf, cho, dmi, mfi, obv, rat
+  // ↓↓↓ simple-plot-0-indicators ↓↓↓
+  // ama                                    | plot(0) | 1 parameter: value
   // let mapping = table.mapAs({'value': 4});
   // chart.plot().ama(mapping).series();
-  // aroon                      | plot(1) | 2 parameters: high/low        | 1 add.param.: period
-  // let mapping = table.mapAs({"high": 2, "low": 3});
-  // chart.plot(1).aroon(mapping, 25);
-  // atr                        | plot(1) | 3 parameters: high/low/close  | 1 add.param.: period
-  // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
-  // chart.plot(1).atr(mapping, 10).series();
-  // Awesome Oscillator         | plot(1) | 2 parameters: high/low        | 3 add.param.: fast period, slow period, ma type (Moving Average Type)
-  // let mapping = table.mapAs({"high": 2, "low": 3});
-  // chart.plot(1).ao(mapping, 5, 34, "sma/ema");
-  // Bollinger Bands            | plot(0) | 1 parameter: value            | 2 add.param.: period, deviation
-  // let mapping = table.mapAs({'value': 4});
-  // chart.plot().bbands(mapping, 20, 2);
-  // Bollinger Bands %B         | plot(1) | 1 parameter: value            | 2 add.param.: period, deviation
-  // let mapping = table.mapAs({'value': 4});
-  // chart.plot(1).bbandsB(mapping, 20, 2);
-  // Bollinger Bands Width      | plot(1) | 1 parameter: value            | 2 add.param.: period, deviation
-  // let mapping = table.mapAs({'value': 4});
-  // chart.plot(1).bbandsWidth(mapping, 50, 3);
-  // Commodity Channel Index    | plot(1) | 3 parameters: high/low/close  | 1 add.param.: period
-  // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
-  // chart.plot(1).cci(mapping, 20);
-  // Envelope                   | plot(1) | 1 parameter: value            | 3 add.param.: period, deviation, ma type (Moving Average Type)
-  // let mapping = table.mapAs({'value': 4});
-  // chart.plot(1).env(mapping, 20, 10, "ema", "line", "line");
-  // Exponential Moving Average | plot(0) | 1 parameter: value            | 1 add.param.: period
+  // Exponential Moving Average             | plot(0) | 1 parameter: value            | 1 add.param.: period
   // let mapping = table.mapAs({'value': 4});
   // chart.plot(0).ema(mapping, 10);
-  // Heikin-Ashi                | plot(1) | 4 parameters: open/high/low/close
-  // let mapping = table.mapAs({"open": 1, "high": 2, "low": 3, "close": 4});
-  // chart.plot(1).ha(mapping);
-  // Ichimoku Cloud             | plot(0) | 3 parameters: high/low/close  | 3 add.param.: conversion period, base period, leading period
+  // Modified Moving Average                | plot(0) | 1 parameter: value            | 1 add.param.: period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot().mma(mapping, 20);
+  // Bollinger Bands                        | plot(0) | 1 parameter: value            | 2 add.param.: period, deviation
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot().bbands(mapping, 20, 2);
+  // ↑↑↑ simple-plot-0-indicators ↑↑↑
+  // ↓↓↓ ohlc-plot-0-indicators ↓↓↓
+  // Price Channels                         | plot(0) | 2 parameters: high/low        | 1 add.param.: period
+  // let mapping = table.mapAs({"high": 2, "low": 3});
+  // chart.plot(0).priceChannels(mapping, 20);
+  // Parabolic SAR                          | plot(0) | 2 parameters: high/low        | 3 add.param.: Acceleration Factor Start, Acceleration Factorincrement, Acceleration Factor Maximum
+  // let mapping = table.mapAs({"high": 2, "low": 3});
+  // chart.plot().psar(mapping, 0.08, 0.60, 0.10, "line").series();
+  // Ichimoku Cloud                         | plot(0) | 3 parameters: high/low/close  | 3 add.param.: conversion period, base period, leading period
   // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
   // chart.plot(0).ikh(mapping, 9, 26, 52);
-  // KDJ                        | plot(1) | 3 parameters: high/low/close  | 5 add.param.: k-period, kma-period, d-period, k-multiplier, d-multiplier
-  // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
-  // chart.plot(1).kdj(mapping, 14, "EMA", 5, "EMA", 5, -2, 3);
-  // Keltner Channels           | plot(0) | 3 parameters: high/low/close  | 3 add.param.: ma-period, multiplier
+  // Keltner Channels                       | plot(0) | 3 parameters: high/low/close  | 3 add.param.: ma-period, multiplier
   // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
   // chart.plot(0).keltnerChannels(mapping, 20, 10, "ema", 2);
+  // ↑↑↑ ohlc-plot-0-indicators ↑↑↑
+  // ↓↓↓ simple-plot-1-indicators ↓↓↓
+  // Psychological Line                     | plot(1) | 1 parameter: value            | 1 add.param.: period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).psy(mapping, 20);
+  // Rank Correlation Index                 | plot(1) | 1 parameter: value            | 1 add.param.: period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).rci(mapping, 12);
+  // Rate of change                         | plot(1) | 1 parameter: value            | 1 add.param.: period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).roc(mapping, 30);
+  // Relative Strength Index                | plot(1) | 1 parameter: value            | 1 add.param.: period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).rsi(mapping, 14);
+  // sma                                    | plot(1) | 1 parameters: value           | 1 add.param.: period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(0).sma(mapping, 10, "line");
+  // Momentum                               | plot(1) | 1 parameter: value            | 1 add.param.: period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).momentum(mapping, 14);
+  // Bollinger Bands %B                     | plot(1) | 1 parameter: value            | 2 add.param.: period, deviation
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).bbandsB(mapping, 20, 2);
+  // Bollinger Bands Width                  | plot(1) | 1 parameter: value            | 2 add.param.: period, deviation
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).bbandsWidth(mapping, 50, 3);
+  // TRIX                                   | plot(1) | 1 parameter: value            | 2 add.param.: Periodб Signal Period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).trix(mapping, 15, 9, "ema", "ema");
+  // Envelope                               | plot(1) | 1 parameter: value            | 3 add.param.: period, deviation, ma type (Moving Average Type)
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).env(mapping, 20, 10, "ema", "line", "line");
+  // Moving Average Convergence/Divergence  | plot(1) | 1 parameter: value            | 3 add.param.: fast period, slow period, signal period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).macd(mapping, 12, 26, 9);
+  // Price Oscillator indicator             | plot(1) | 1 parameter: value            | 3 add.param.: Short Period, Long Period, Smoothing Period
+  // let mapping = table.mapAs({'value': 4});
+  // chart.plot(1).ppo(mapping, 12, 26, 9);
+  // ↑↑↑ simple-plot-1-indicators ↑↑↑
+  // ↓↓↓ ohlc-plot-1-indicators ↓↓↓
+  // Heikin-Ashi                            | plot(1) | 4 parameters: open/high/low/close
+  // let mapping = table.mapAs({"open": 1, "high": 2, "low": 3, "close": 4});
+  // chart.plot(1).ha(mapping);
+  // aroon                                  | plot(1) | 2 parameters: high/low        | 1 add.param.: period
+  // let mapping = table.mapAs({"high": 2, "low": 3});
+  // chart.plot(1).aroon(mapping, 25);
+  // atr                                    | plot(1) | 3 parameters: high/low/close  | 1 add.param.: period
+  // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
+  // chart.plot(1).atr(mapping, 10).series();
+  // Commodity Channel Index                | plot(1) | 3 parameters: high/low/close  | 1 add.param.: period
+  // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
+  // chart.plot(1).cci(mapping, 20);
+  // Williams %R                            | plot(1) | 3 parameters: high/low/close  | 1 add.param.: period
+  // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
+  // chart.plot(1).williamsR(mapping, 4);
+  // Awesome Oscillator                     | plot(1) | 2 parameters: high/low        | 3 add.param.: fast period, slow period, ma type (Moving Average Type)
+  // let mapping = table.mapAs({"high": 2, "low": 3});
+  // chart.plot(1).ao(mapping, 5, 34, "sma/ema");
+  // Stochastic oscillator                  | plot(1) | 3 parameters: high/low/close  | 3 add.param.: K-Period, Kma Period, D-Period
+  // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
+  // chart.plot(1).stochastic(mapping, 10, "EMA", 10, "SMA", 20);
+  // KDJ                                    | plot(1) | 3 parameters: high/low/close  | 5 add.param.: k-period, kma-period, d-period, k-multiplier, d-multiplier
+  // let mapping = table.mapAs({"high": 2, "low": 3, "close": 4});
+  // chart.plot(1).kdj(mapping, 14, "EMA", 5, "EMA", 5, -2, 3);
+  // ↑↑↑ ohlc-plot-1-indicators ↑↑↑
+  // видалення plot
+  // setTimeout( () => {
+  //   chart.plot(1).dispose()
+  //   }, 10000);
+  // видалення serie
+  // setTimeout( function(){
+  //   let series = chart.plot(0).getSeriesCount();
+  //   for (let i = 1; i < series; i++) {
+  //     chart.plot(0).removeSeriesAt(1)
+  //   }
+  // }, 3000);
   // ↑↑↑ /indicators ↑↑↑
 }
 /**

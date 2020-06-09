@@ -12,3 +12,9 @@
 
 ============
 
+
+
+
+
+add/delete plots  : https://docs.anychart.com/Stock_Charts/Chart_Plots
+add/delete series : https://docs.anychart.com/Working_with_Data/Series_Manipulation

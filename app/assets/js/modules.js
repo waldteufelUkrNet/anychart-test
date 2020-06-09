@@ -939,29 +939,6 @@ document.querySelector('.popup-set-SL-TP .popup__btn').onclick = function () {
   var tp = popup.querySelector('#input-TP').value || popup.querySelector('#pseudo-input-TP').innerHTML;
   console.log('click', sl, tp, id); //////////
 };
-"use strict"; // tab module
-////////////////////////////////////////////////////////////////////////////////
-
-/* ↓↓↓ переключення вкладок ↓↓↓ */
-
-document.addEventListener('click', switchTab);
-/**
- * [switchTab переключає вкладки]
- * @param  {[object]} event [об'єкт події]
- */
-
-function switchTab(event) {
-  if (!event.target.classList.contains('tab-header') || event.target.classList.contains('tab-header_active')) return;
-  var tab = event.target.closest('.tab-header');
-  var dataAttr = tab.dataset.tab;
-  var grandParent = tab.closest('.tab-area');
-  grandParent.querySelector('.tab-body_active').classList.remove('tab-body_active');
-  grandParent.querySelector('.tab-header_active').classList.remove('tab-header_active');
-  event.target.classList.add('tab-header_active');
-  grandParent.querySelector('.tab-body[data-tab="' + dataAttr + '"]').classList.add('tab-body_active');
-}
-/* ↑↑↑ /переключення вкладок ↑↑↑ */
-////////////////////////////////////////////////////////////////////////////////
 "use strict"; // scrollTable-fixHeader module
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -988,4 +965,27 @@ function scrollTableHandler(eventTarget) {
   eventTarget.querySelector('thead').style.transform = 'translateY(' + (scrollTop - 1) + 'px)';
 }
 /* ↑↑↑ /прокрутка таблиці при фіксованому положенні шапки в info-area */
+////////////////////////////////////////////////////////////////////////////////
+"use strict"; // tab module
+////////////////////////////////////////////////////////////////////////////////
+
+/* ↓↓↓ переключення вкладок ↓↓↓ */
+
+document.addEventListener('click', switchTab);
+/**
+ * [switchTab переключає вкладки]
+ * @param  {[object]} event [об'єкт події]
+ */
+
+function switchTab(event) {
+  if (!event.target.classList.contains('tab-header') || event.target.classList.contains('tab-header_active')) return;
+  var tab = event.target.closest('.tab-header');
+  var dataAttr = tab.dataset.tab;
+  var grandParent = tab.closest('.tab-area');
+  grandParent.querySelector('.tab-body_active').classList.remove('tab-body_active');
+  grandParent.querySelector('.tab-header_active').classList.remove('tab-header_active');
+  event.target.classList.add('tab-header_active');
+  grandParent.querySelector('.tab-body[data-tab="' + dataAttr + '"]').classList.add('tab-body_active');
+}
+/* ↑↑↑ /переключення вкладок ↑↑↑ */
 ////////////////////////////////////////////////////////////////////////////////
